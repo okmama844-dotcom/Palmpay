@@ -11,13 +11,11 @@
 body{background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:76px}
 button,input,select,textarea{font:inherit}button{cursor:pointer}
 .hidden{display:none!important}
-
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(150deg,#1e1b2e,#3a2a5c)}
 .login-box{width:100%;max-width:380px;background:#fff;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px #0005}
 .login-box .logo{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,#7000ff,#9c58ff);display:grid;place-items:center;margin:0 auto 14px;font-size:28px;color:#fff}
 .login-box h1{font-size:22px;text-align:center;margin-bottom:4px}
 .login-box p{font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px}
-
 .field{margin-bottom:14px}
 .field label{display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px}
 .field input,.field select,.field textarea{width:100%;border:1px solid #ddd;border-radius:11px;padding:12px 14px;font-size:14px;outline:none;background:#fafafd}
@@ -27,10 +25,8 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .btn-outline{background:#fff;color:var(--p);border:1px solid #ddd}
 .btn-danger{background:#fff0f0;color:var(--red);border:1px solid #ffd0d5}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
-
 .admin-layout{min-height:100vh;padding:0 0 76px}
 .main{padding:20px 22px 20px;max-width:1200px;margin:0 auto}
-
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:40;box-shadow:0 -4px 20px #0000000f;padding-bottom:env(safe-area-inset-bottom)}
 .bottom-nav .nav{flex:1;border:0;background:transparent;color:#9b99a8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;padding:0}
 .bottom-nav .nav .ic{font-size:19px;line-height:1}
@@ -43,11 +39,9 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   .bottom-nav .nav .ic{font-size:17px}
   .bottom-nav .nav .badge-count{top:auto;right:auto;margin-left:4px;position:static}
 }
-
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
 .topbar h2{font-size:21px}
 .topbar .sub{font-size:12px;color:var(--muted)}
-
 .grid{display:grid;gap:14px}
 .grid-3{grid-template-columns:repeat(3,1fr)}
 .grid-2{grid-template-columns:repeat(2,1fr)}
@@ -58,13 +52,11 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .stat .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex-shrink:0}
 .stat b{font-size:22px;display:block}
 .stat small{font-size:11px;color:var(--muted)}
-
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
 th{text-align:left;padding:10px 8px;color:var(--muted);font-weight:700;font-size:11px;border-bottom:1px solid var(--line);white-space:nowrap}
 td{padding:11px 8px;border-bottom:1px solid #f2f2f6;vertical-align:middle}
 tr:last-child td{border-bottom:0}
-
 .pill{font-size:10px;font-weight:800;padding:4px 8px;border-radius:20px;display:inline-block}
 .pill-green{background:#e4f8ef;color:var(--green)}
 .pill-red{background:#fff0ef;color:var(--red)}
@@ -75,7 +67,6 @@ tr:last-child td{border-bottom:0}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .section-head h3{font-size:16px}
 .section-head .sub{font-size:11.5px;color:var(--muted)}
-
 .modal-bg{display:none;position:fixed;inset:0;background:#15122188;z-index:80;align-items:center;justify-content:center;padding:18px}
 .modal-bg.show{display:flex}
 .modal{background:#fff;border-radius:18px;padding:22px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto}
@@ -95,7 +86,6 @@ tr:last-child td{border-bottom:0}
 .req-card .row span{color:var(--muted)}
 .req-actions{display:flex;gap:8px;margin-top:10px}
 .search{width:100%;max-width:280px;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:13px;outline:none}
-
 .inst-editor{border:1px solid #e6e6ee;border-radius:12px;padding:12px;margin-bottom:10px;background:#fafafd;position:relative}
 .inst-editor .inst-num{position:absolute;top:-9px;left:12px;background:var(--p);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px}
 .inst-editor .del{position:absolute;top:-9px;right:12px;border:0;background:#fff0f0;color:var(--red);border-radius:10px;font-size:10px;font-weight:800;padding:2px 8px;cursor:pointer}
@@ -107,7 +97,6 @@ tr:last-child td{border-bottom:0}
 @media(max-width:640px){.inst-editor .grid3{grid-template-columns:1fr 1fr}}
 .inst-summary{background:#f5eeff;border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .inst-summary b{color:var(--p)}
-
 .kisti-row{border:1px solid #eee;border-radius:12px;padding:11px 12px;margin-bottom:8px;background:#fafafd;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .kisti-row .kl{font-size:12.5px}
 .kisti-row .kl b{font-size:13px;display:block}
@@ -116,7 +105,6 @@ tr:last-child td{border-bottom:0}
 .kisti-row .kr b{font-size:13.5px;display:block}
 .overdue-tag{display:inline-block;background:#fff0ef;color:var(--red);font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;margin-top:4px}
 .overdue-tag.ok{background:#e4f8ef;color:var(--green)}
-
 .notif-bell{position:relative;border:0;background:#f1eaff;color:var(--p);width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;flex-shrink:0}
 .notif-bell .badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:10px;font-weight:800;border-radius:50%;min-width:18px;height:18px;display:grid;place-items:center;border:2px solid #fff}
 .notif-list{max-height:500px;overflow-y:auto}
@@ -204,6 +192,16 @@ tr:last-child td{border-bottom:0}
       <div id="paymentsList"></div>
     </section>
 
+    <!-- নতুন ট্যাব: ম্যানুয়াল পুশ নোটিফিকেশন -->
+    <section id="tab-push" class="hidden">
+      <div class="topbar"><div><h2>Send Push Notification</h2><div class="sub">Send manual notification to all users</div></div></div>
+      <div class="card" style="max-width:520px;margin:0 auto;">
+        <div class="field"><label>Notification Title</label><input id="pushTitle" placeholder="e.g. নতুন অফার!"></div>
+        <div class="field"><label>Message</label><textarea id="pushMessage" rows="4" placeholder="আপনার মেসেজ এখানে লিখুন..."></textarea></div>
+        <button class="btn btn-primary" style="width:100%" onclick="sendManualPush()">🚀 Send Push</button>
+      </div>
+    </section>
+
     <section id="tab-notifications" class="hidden">
       <div class="topbar"><div><h2>Notifications</h2><div class="sub">All system notifications (24h active)</div></div>
         <button class="btn btn-outline btn-sm" onclick="clearAdminNotifications()">Clear read</button>
@@ -235,6 +233,7 @@ tr:last-child td{border-bottom:0}
     <button class="nav active" data-tab="dashboard" onclick="switchAdmin('dashboard')"><span class="ic">📊</span><span>Dashboard</span></button>
     <button class="nav" data-tab="users" onclick="switchAdmin('users')"><span class="ic">👥</span><span>Users</span></button>
     <button class="nav" data-tab="payments" onclick="switchAdmin('payments')"><span class="ic">💳</span><span>Payments</span><span class="badge-count" id="reqBadge">0</span></button>
+    <button class="nav" data-tab="push" onclick="switchAdmin('push')"><span class="ic">📢</span><span>Push</span></button>
     <button class="nav" data-tab="notifications" onclick="switchAdmin('notifications')"><span class="ic">🔔</span><span>Alerts</span><span class="badge-count hidden" id="notifAdminBadge">0</span></button>
     <button class="nav" data-tab="settings" onclick="switchAdmin('settings')"><span class="ic">⚙️</span><span>Settings</span></button>
   </nav>
@@ -413,7 +412,6 @@ const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 let payFilter = "pending";
 let editingInstallments = [];
 
-// ── নোটিফিকেশন হেল্পার (২৪ ঘণ্টা) ──
 function isNotifActive(n){
   if(!n || !n.createdAt) return false;
   return (Date.now() - new Date(n.createdAt).getTime()) <= ONE_DAY_MS;
@@ -447,7 +445,7 @@ function showAdminApp(){
 
 function switchAdmin(tab){
   document.querySelectorAll(".bottom-nav .nav").forEach(b=>b.classList.toggle("active", b.dataset.tab===tab));
-  ["dashboard","users","payments","notifications","settings"].forEach(x=>{
+  ["dashboard","users","payments","push","notifications","settings"].forEach(x=>{
     document.getElementById("tab-"+x).classList.toggle("hidden", x!==tab);
   });
   window.scrollTo({top:0, behavior:"smooth"});
@@ -474,7 +472,6 @@ function updateBadges(){
   reqBadge.textContent = pendingReq;
   reqBadge.classList.toggle("hidden", pendingReq===0);
 
-  // ২৪ ঘণ্টা ফিল্টার
   let notifs = (d.notifications||[])
     .filter(n=>n.userPhone==="*")
     .filter(isNotifActive);
@@ -837,6 +834,46 @@ function renderPayments(){
   updateBadges();
 }
 
+// ═══════════════════════════════════════════════════════════════
+// পুশ নোটিফিকেশন পাঠানোর গ্লোবাল ফাংশন (Creator Notify API)
+// ═══════════════════════════════════════════════════════════════
+async function sendPushNotification(title, message) {
+  try {
+    // এটি আপনার Netlify Function-এ রিকোয়েস্ট পাঠাচ্ছে
+    const res = await fetch('/.netlify/functions/send-notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title, message })
+    });
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      console.warn('Push failed:', errorData.error);
+      notify("পুশ পাঠানো ব্যর্থ হয়েছে! API চেক করুন।");
+    } else {
+      notify("সব ইউজারকে পুশ নোটিফিকেশন পাঠানো হয়েছে ✅");
+    }
+  } catch (err) {
+    console.error('Push request failed:', err);
+    notify("পুশ পাঠানো সম্ভব হয়নি (Network Error)");
+  }
+}
+
+// ম্যানুয়াল পুশ পাঠানোর ফাংশন (নতুন ট্যাব থেকে)
+function sendManualPush() {
+  const title = document.getElementById("pushTitle").value.trim();
+  const message = document.getElementById("pushMessage").value.trim();
+  
+  if (!title || !message) {
+    notify("টাইটেল এবং মেসেজ দুটোই লিখুন!");
+    return;
+  }
+  
+  sendPushNotification(title, message);
+  document.getElementById("pushTitle").value = "";
+  document.getElementById("pushMessage").value = "";
+}
+
 function approvePayment(userId, reqIdx){
   let d = dbLoad();
   let u = d.users.find(x=>x.id===userId);
@@ -870,7 +907,6 @@ function approvePayment(userId, reqIdx){
     });
   }
 
-  // ── User কে নোটিফিকেশন (২৪ ঘণ্টা valid) ──
   d.notifications = d.notifications || [];
   d.notifications.push({
     id: "n_" + Math.random().toString(36).slice(2,9),
@@ -885,6 +921,13 @@ function approvePayment(userId, reqIdx){
   });
 
   dbSave(d);
+  
+  // 🔔 Creator Notify-তে পুশ পাঠান
+  sendPushNotification(
+    "পেমেন্ট সফল হয়েছে ✅",
+    `আপনার ৳${Number(req.amount).toLocaleString("en-BD")} পেমেন্ট অনুমোদিত হয়েছে। (TrxID: ${req.trxId})`
+  );
+
   renderAll();
   notify("Payment approved — user notified");
   showBrowserNotification("Payment Approved", `${u.name} — ৳${req.amount}`);
@@ -906,7 +949,7 @@ function rejectPayment(userId, reqIdx){
       delete k.senderNumber;
     }
   }
-  // ── User কে নোটিফিকেশন (rejected) ──
+
   d.notifications = d.notifications || [];
   d.notifications.push({
     id: "n_" + Math.random().toString(36).slice(2,9),
@@ -920,6 +963,13 @@ function rejectPayment(userId, reqIdx){
     expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
   });
   dbSave(d);
+
+  // 🔔 Creator Notify-তে পুশ পাঠান
+  sendPushNotification(
+    "পেমেন্ট বাতিল ❌",
+    `আপনার ৳${Number(req.amount).toLocaleString("en-BD")} পেমেন্ট বাতিল করা হয়েছে।`
+  );
+
   renderAll();
   notify("Payment rejected");
 }
@@ -997,8 +1047,8 @@ window.updateInstField=updateInstField;window.filterPayments=filterPayments;
 window.approvePayment=approvePayment;window.rejectPayment=rejectPayment;
 window.markAdminNotifRead=markAdminNotifRead;window.clearAdminNotifications=clearAdminNotifications;
 window.saveSettings=saveSettings;window.resetAllData=resetAllData;
+window.sendManualPush=sendManualPush;
 
-// প্রতি ১ মিনিটে অটো রিফ্রেশ (২৪ ঘণ্টা এক্সপায়ারি কার্যকর)
 setInterval(()=>{
   if(!document.getElementById("adminView").classList.contains("hidden")){
     updateBadges();
