@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#7000FF">
+<title>PalmPay BD | Customer App</title>
+<style>
+:root{--p:#7000ff;--p2:#8b3dff;--pale:#f2eaff;--bg:#f7f7fb;--ink:#202033;--muted:#858598;--line:#ececf2;--green:#16a36a;--red:#e34e5b;--amber:#d58a16;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);min-height:100vh}
+button,input,select{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}
+.app{max-width:480px;min-height:100vh;margin:auto;background:var(--bg);padding-bottom:82px;position:relative}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(150deg,#f0e6ff,#fff 58%,#f7f3ff)}
+.login-card{width:100%;max-width:390px;background:#fff;border-radius:28px;padding:30px 24px;box-shadow:0 18px 55px #4c1a8a18;text-align:center}
+.brand-mark{width:66px;height:66px;margin:0 auto 12px;border-radius:20px;background:#fff;display:grid;place-items:center;box-shadow:0 6px 22px #7000ff22}
+.brand-mark svg{width:48px;height:48px}
+.brand-name{font-size:27px;font-weight:850;color:var(--p);letter-spacing:-.8px}
+.brand-sub{font-size:13px;color:var(--muted);margin:5px 0 28px}
+.login-card h2{font-size:20px;margin-bottom:6px}.login-card .intro{font-size:13px;color:var(--muted);margin-bottom:22px}
+.field{margin:0 0 14px;text-align:left}.field label{display:block;font-size:12px;color:#626276;font-weight:700;margin:0 0 7px}
+.field input,.field select{width:100%;border:1px solid #e4e2eb;background:#fbfaff;border-radius:13px;padding:14px 15px;outline:none;font-size:15px}
+.field input:focus,.field select:focus{border-color:var(--p);box-shadow:0 0 0 3px #7000ff13;background:#fff}
+.primary{border:0;border-radius:13px;background:linear-gradient(100deg,var(--p),var(--p2));color:white;font-weight:800;padding:14px 18px;width:100%;box-shadow:0 7px 17px #7000ff25}
+.login-note{font-size:11px;color:#9b9aaa;margin-top:18px;line-height:1.6}
+.topbar{padding:18px 18px 14px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--line)}
+.brand-inline{display:flex;align-items:center;gap:10px}.mini-logo{width:38px;height:38px;border-radius:12px;background:#f3eaff;display:grid;place-items:center}.mini-logo svg{width:28px}
+.brand-inline b{font-size:17px;display:block}.brand-inline small{font-size:10px;color:var(--muted)}
+.icon-btn{width:38px;height:38px;border:0;border-radius:12px;background:#f6f2ff;color:var(--p);font-size:16px;font-weight:800;position:relative}
+.notif-badge{position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;font-size:9px;font-weight:800;border-radius:50%;min-width:16px;height:16px;display:grid;place-items:center;padding:0 4px;border:2px solid #fff}
+.greeting{padding:18px 18px 12px}.greeting h2{font-size:18px}.greeting p{font-size:12px;color:var(--muted);margin-top:4px}
+.loan-card{margin:0 16px 15px;padding:18px;border-radius:20px;background:#fff;box-shadow:0 5px 20px #17172b08;border:1px solid #f0edf6}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.card-head strong{font-size:14px}.tag{font-size:10px;color:var(--p);background:var(--pale);padding:5px 9px;border-radius:20px;font-weight:800}
+.product-row{display:flex;align-items:center;gap:12px;padding:12px;background:#faf8ff;border-radius:14px;margin-bottom:16px}
+.phone-art{width:54px;height:60px;border-radius:10px;background:linear-gradient(145deg,#e6d7ff,#fff);display:grid;place-items:center;color:var(--p);font-size:25px;flex-shrink:0;overflow:hidden;border:1px solid #eadfff}
+.phone-art img{width:100%;height:100%;object-fit:cover;display:block}
+.product-row b{font-size:13px;display:block}.product-row small{font-size:11px;color:var(--muted)}
+.balance-label{font-size:12px;color:var(--muted);margin-bottom:3px}.balance{font-size:30px;font-weight:850;letter-spacing:-.8px}
+.balance-note{font-size:11px;color:#c18a29;margin:5px 0 14px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#f8f7fb;border-radius:12px;padding:11px}.metric span{font-size:10px;color:var(--muted);display:block;margin-bottom:5px}.metric b{font-size:14px}
+.due-line{display:flex;align-items:center;justify-content:space-between;margin:15px 0 12px;font-size:12px}.due-line span{color:var(--muted)}.due-line b{font-size:15px}
+.outline{width:100%;padding:12px;border:1px solid #dcd2ef;border-radius:12px;background:#fff;color:var(--p);font-weight:750;font-size:13px}
+.section{margin:18px 16px 10px;display:flex;justify-content:space-between;align-items:center}.section h3{font-size:15px}.section small{font-size:11px;color:var(--muted)}
+.info-tile{background:#fff;margin:0 16px 10px;padding:14px;border-radius:15px;display:flex;align-items:center;gap:12px;box-shadow:0 3px 12px #1111}
+.tile-icon{width:35px;height:35px;border-radius:11px;background:#f1eaff;color:var(--p);display:grid;place-items:center;font-size:17px;flex-shrink:0}
+.info-tile b{font-size:12px;display:block}.info-tile small{font-size:10px;color:var(--muted);display:block;margin-top:3px}.pill{margin-left:auto;border:0;border-radius:20px;background:#eee5ff;color:var(--p);font-size:10px;font-weight:800;padding:6px 10px}
+.schedule{margin:0 16px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 4px 16px #1111}
+.installment{border-bottom:1px solid var(--line)}.installment:last-child{border:0}
+.installment-head{padding:14px;display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer}
+.inst-left b{font-size:13px;display:block}.inst-left small{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.inst-right{text-align:right}.inst-right b{font-size:13px;display:block}.status{font-size:9px;font-weight:800;display:inline-block;padding:4px 7px;border-radius:15px;margin-top:5px}
+.paid{background:#e4f8ef;color:var(--green)}.due{background:#fff0ef;color:var(--red)}.pending{background:#fff5df;color:var(--amber)}.unpaid{background:#f0eff4;color:#777}
+.inst-detail{display:none;background:#faf9fd;padding:0 14px 14px}.installment.open .inst-detail{display:block}.inst-detail p{font-size:11px;color:var(--muted);margin-bottom:10px}
+.pay-small{border:0;background:var(--p);color:#fff;border-radius:10px;padding:10px 14px;font-size:12px;font-weight:800;width:100%}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;height:68px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+.nav{flex:1;border:0;background:transparent;color:#9b99a8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.nav span{font-size:20px}.nav.active{color:var(--p)}
+.page{display:none}.page.active{display:block}
+.page-title{padding:20px 18px 14px;font-size:20px;font-weight:850}
+.profile-head{margin:0 16px 14px;padding:18px;border-radius:18px;background:linear-gradient(120deg,#7000ff,#9c58ff);color:#fff;display:flex;align-items:center;gap:13px}
+.avatar{width:50px;height:50px;border-radius:16px;background:#fff2;display:grid;place-items:center;font-size:23px;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.profile-head b{display:block;font-size:15px}.profile-head small{font-size:11px;opacity:.85}
+.settings-list{margin:0 16px;background:#fff;border-radius:17px;padding:0 14px;box-shadow:0 4px 16px #1111}
+.setting-row{display:flex;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line);cursor:pointer}.setting-row:last-child{border:0}.setting-row .tile-icon{width:36px;height:36px}.setting-row b{font-size:13px}.setting-row small{display:block;font-size:10px;color:var(--muted);margin-top:3px}.chev{margin-left:auto;color:#aaa;font-size:20px}
+.panel{margin:0 16px 14px;background:#fff;border-radius:17px;padding:16px;box-shadow:0 4px 16px #1111}
+.panel h3{font-size:15px;margin-bottom:12px}.detail-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:12px}.detail-row:last-child{border:0}.detail-row span{color:var(--muted)}.detail-row b{text-align:right;overflow-wrap:anywhere}
+.back{border:0;background:#f1eaff;color:var(--p);width:35px;height:35px;border-radius:10px;font-size:18px;margin-right:10px}
+.subhead{display:flex;align-items:center;padding:16px 18px;font-size:18px;font-weight:850}
+.danger{background:#fff0f0;color:#d83e4b;border:0;width:100%;padding:14px;border-radius:13px;font-weight:800;margin-top:16px}
+.modal-bg{display:none;position:fixed;inset:0;background:#15122188;z-index:50;align-items:flex-end;justify-content:center}.modal-bg.show{display:flex}
+.modal{background:#fff;width:100%;max-width:480px;border-radius:23px 23px 0 0;padding:22px 18px 28px;max-height:90vh;overflow:auto;animation:rise .22s ease}
+@keyframes rise{from{transform:translateY(60px);opacity:.5}to{transform:none;opacity:1}}
+.modal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.modal-top h3{font-size:17px}.close{border:0;background:#f2f1f6;border-radius:50%;width:30px;height:30px;font-size:19px}
+.pay-brand{border-radius:15px;background:#fff0f5;border:1px solid #ffd8e4;padding:14px;margin-bottom:14px}
+.pay-brand small{font-size:10px;color:#b34c70;font-weight:800}.pay-brand b{display:block;font-size:23px;color:#d82c69;margin:5px 0}
+.copy{border:0;background:#fff;color:#d82c69;border:1px solid #efbfd0;padding:7px 12px;border-radius:9px;font-size:11px;font-weight:800}
+.steps{font-size:12px;color:#555;line-height:1.8;background:#faf8fc;padding:12px 14px;border-radius:12px;margin-bottom:14px}
+.toast{position:fixed;left:50%;bottom:85px;transform:translate(-50%,20px);background:#252238;color:#fff;padding:11px 16px;border-radius:11px;font-size:12px;opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.muted{color:var(--muted);font-size:11px;line-height:1.6}
+.overdue-badge{background:#fff0ef;color:var(--red);border-radius:10px;padding:8px 12px;font-size:11px;font-weight:800;margin-bottom:12px;text-align:center}
+.installment-select{width:100%;padding:13px;border:1px solid #e4e2eb;border-radius:12px;background:#fff;font-size:14px;margin-bottom:12px}
+.pay-options{display:flex;gap:8px;margin-bottom:12px}
+.pay-option{flex:1;border:1px solid #e4e2eb;border-radius:12px;background:#fff;padding:12px 8px;text-align:center;font-size:12px;font-weight:700;color:var(--ink)}
+.pay-option.active{border-color:var(--p);background:#f5eeff;color:var(--p)}
+.notif-item{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 3px 12px #1111;border-left:3px solid var(--p);transition:.2s}
+.notif-item.read{opacity:.55;border-left-color:#ddd}
+.notif-item .notif-title{font-size:13px;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.notif-item .notif-msg{font-size:12px;color:#555;margin:6px 0;line-height:1.5}
+.notif-item .notif-time{font-size:10px;color:#999}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0}
+.notif-empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:13px}
+.notif-empty .icon{font-size:48px;display:block;margin-bottom:12px;opacity:.4}
+.perm-banner{background:linear-gradient(100deg,#fff5df,#fff);border:1px solid #f5e0b0;border-radius:13px;padding:12px 14px;margin:0 16px 12px;display:flex;align-items:center;gap:10px;font-size:12px}
+.perm-banner .pb-icon{font-size:20px}
+.perm-banner b{display:block;font-size:12px;color:#8a6410}
+.perm-banner small{font-size:10px;color:#a08035;display:block;margin-top:2px}
+.perm-banner button{margin-left:auto;border:0;background:#d58a16;color:#fff;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:800;flex-shrink:0}
+.loading-screen{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:999}
+.loading-screen .spinner{width:44px;height:44px;border:4px solid #f0e6ff;border-top-color:#7000ff;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.profile-img-large{width:90px;height:90px;border-radius:24px;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #f5eeff;box-shadow:0 4px 14px rgba(0,0,0,0.06)}
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <div style="font-size:13px;color:#858598">ডেটা লোড হচ্ছে...</div>
+</div>
+
+<section class="login-screen hidden" id="loginScreen">
+ <div class="login-card">
+  <div class="brand-mark"><svg viewBox="0 0 100 100" fill="none"><path d="M50 7 88 29v42L50 93 12 71V29L50 7Z" fill="#7000FF"/><path d="M50 22 73 35v30L50 78 27 65V35l23-13Z" fill="#fff"/><path d="m50 36 12 7v14l-12 7-12-7V43l12-7Z" fill="#7000FF"/></svg></div>
+  <div class="brand-name">PalmPay BD</div><div class="brand-sub" data-i18n="tagline">সহজ কিস্তি পরিশোধ সেবা</div>
+  <h2 data-i18n="loginTitle">আপনার অ্যাকাউন্টে লগইন করুন</h2>
+  <p class="intro" data-i18n="loginIntro">ফোন নম্বর ও পাসওয়ার্ড দিয়ে প্রবেশ করুন</p>
+  <div class="field"><label data-i18n="phoneLabel">মোবাইল নম্বর</label><input id="loginPhone" type="tel" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" autocomplete="username"></div>
+  <div class="field"><label data-i18n="passLabel">পাসওয়ার্ড</label><input id="loginPass" type="password" placeholder="আপনার পাসওয়ার্ড লিখুন" autocomplete="current-password"></div>
+  <button class="primary" onclick="login()" data-i18n="loginBtn">লগইন করুন</button>
+  <div class="login-note"><span data-i18n="copyright">© PalmPay BD Limited</span></div>
+ </div>
+</section>
+<div class="app hidden" id="app">
+ <header class="topbar">
+   <div class="brand-inline"><div class="mini-logo"><svg viewBox="0 0 100 100" fill="none"><path d="M50 7 88 29v42L50 93 12 71V29L50 7Z" fill="#7000FF"/><path d="M50 22 73 35v30L50 78 27 65V35l23-13Z" fill="#fff"/><path d="m50 36 12 7v14l-12 7-12-7V43l12-7Z" fill="#7000FF"/></svg></div><div><b>PalmPay BD</b><small>INSTALLMENT MANAGEMENT</small></div></div>
+   <div style="display:flex;gap:8px">
+     <button class="icon-btn" id="notifBtn" onclick="openNotifications()" title="Notifications">
+       🔔<span id="notifBadge" class="notif-badge hidden">0</span>
+     </button>
+     <button class="icon-btn" id="langBtn" onclick="toggleLanguage()" title="Language / ভাষা">EN</button>
+   </div>
+ </header>
+ <main>
+  <section class="page active" id="homePage">
+   <div class="greeting"><h2 id="helloName" data-i18n="hello">স্বাগতম</h2><p data-i18n="homeSub">আপনার মোবাইল কিস্তির বর্তমান অবস্থা দেখুন</p></div>
+   <div id="permBanner" class="hidden"></div>
+   <div class="loan-card">
+    <div class="card-head"><strong data-i18n="loanTitle">📱 মোবাইল ফোনের কিস্তি</strong><span class="tag" data-i18n="activeTag">চলমান</span></div>
+    <div class="product-row">
+      <div class="phone-art" id="phoneArt"><span>▯</span></div>
+      <div><b id="productName">মোবাইল ফোন</b><small id="productMeta" data-i18n="deviceInfo">ডিভাইসের তথ্য</small></div>
+    </div>
+    <div class="balance-label" data-i18n="balanceLabel">বর্তমান বকেয়া</div><div class="balance" id="balance">৳ ০.০০</div>
+    <div class="balance-note" data-i18n="balanceNote">অনুগ্রহ করে নির্ধারিত সময়ের মধ্যে পরিশোধ করুন</div>
+    <div class="metrics"><div class="metric"><span data-i18n="totalInstallments">মোট কিস্তি</span><b id="totalAmount">৳ ০.০০</b></div><div class="metric"><span data-i18n="paidSoFar">পরিশোধ হয়েছে</span><b id="paidAmount">৳ ০.০০</b></div></div>
+    <div class="due-line"><span data-i18n="nextDueLabel">পরবর্তী / শেষ কিস্তির তারিখ</span><b id="nextDue">-</b></div>
+    <button class="outline" onclick="openPaymentChoice()" data-i18n="payNowBtn">এখনই কিস্তি পরিশোধ করুন</button>
+   </div>
+   <div class="section"><h3 data-i18n="installmentDetails">কিস্তির বিবরণ</h3><small id="installmentCount">-</small></div>
+   <div class="schedule" id="scheduleList"></div>
+   <div class="section"><h3 data-i18n="helpGuidance">সহায়তা ও নির্দেশনা</h3></div>
+   <div class="info-tile"><div class="tile-icon">▣</div><div><b data-i18n="payGuideTitle">পরিশোধের নির্দেশিকা</b><small data-i18n="payGuideSub">কীভাবে কিস্তি পরিশোধ করবেন তা জানুন</small></div><button class="pill" onclick="showPayGuide()" data-i18n="view">দেখুন</button></div>
+   <div class="info-tile"><div class="tile-icon">♧</div><div><b data-i18n="reminderTitle">পরিশোধের রিমাইন্ডার</b><small data-i18n="reminderSub">কিস্তির তারিখ মনে রাখতে রিমাইন্ডার দেখুন</small></div><button class="pill" onclick="showReminder()" data-i18n="view">দেখুন</button></div>
+  </section>
+  <section class="page" id="settingsPage">
+   <div class="page-title" data-i18n="myAccount">আমার অ্যাকাউন্ট</div>
+   <div class="profile-head">
+     <div class="avatar" id="profileAvatar">♙</div>
+     <div><b id="settingsName">গ্রাহক</b><small id="settingsPhone">01XXXXXXXXX</small></div>
+   </div>
+   <div class="settings-list">
+    <div class="setting-row" onclick="openSub('profile')"><div class="tile-icon">♙</div><div><b data-i18n="profile">প্রোফাইল</b><small data-i18n="profileSub">আপনার ব্যক্তিগত তথ্য দেখুন</small></div><span class="chev">›</span></div>
+    <div class="setting-row" onclick="openSub('device')"><div class="tile-icon">▯</div><div><b data-i18n="phoneInfo">ফোনের তথ্য</b><small data-i18n="phoneInfoSub">আপনার কেনা ফোনের বিবরণ</small></div><span class="chev">›</span></div>
+    <div class="setting-row" onclick="openSub('security')"><div class="tile-icon">⚿</div><div><b data-i18n="accountSettings">অ্যাকাউন্ট সেটিংস</b><small data-i18n="accountSettingsSub">পাসওয়ার্ড পরিবর্তন করুন</small></div><span class="chev">›</span></div>
+    <div class="setting-row" onclick="openSub('history')"><div class="tile-icon">◷</div><div><b data-i18n="paymentHistory">পেমেন্ট হিস্টোরি</b><small data-i18n="paymentHistorySub">আপনার পূর্বের পরিশোধসমূহ</small></div><span class="chev">›</span></div>
+   </div>
+   <div style="padding:0 16px"><button class="danger" onclick="logout()" data-i18n="logoutBtn">লগ আউট</button><p class="muted" style="text-align:center;margin:18px 0" data-i18n="poweredBy">Powered by PalmPay BD Limited</p></div>
+  </section>
+  <section class="page" id="subPage">
+   <div class="subhead"><button class="back" onclick="closeSub()">‹</button><span id="subTitle">বিস্তারিত</span></div>
+   <div id="subContent"></div>
+  </section>
+  <section class="page" id="notifPage">
+   <div class="subhead">
+     <button class="back" onclick="switchTab('home')">‹</button>
+     <span data-i18n="notificationsTitle">নোটিফিকেশন</span>
+     <button onclick="clearAllNotifications()" style="margin-left:auto;border:0;background:transparent;color:var(--p);font-size:11px;font-weight:800" data-i18n="clearAll">সব মুছুন</button>
+   </div>
+   <div id="notifList" style="padding:0 16px"></div>
+  </section>
+ </main>
+ <nav class="bottom-nav"><button class="nav active" id="homeNav" onclick="switchTab('home')"><span>▣</span><span data-i18n="navPay">পরিশোধ</span></button><button class="nav" id="settingsNav" onclick="switchTab('settings')"><span>☻</span><span data-i18n="navMe">আমি</span></button></nav>
+</div>
+
+<div class="modal-bg" id="choiceModal" onclick="if(event.target===this)closeChoice()"><div class="modal">
+<div class="modal-top"><h3 data-i18n="paymentTitle">কিস্তি পরিশোধ</h3><button class="close" onclick="closeChoice()">×</button></div>
+<div class="panel" style="margin:0 0 12px;padding:13px">
+  <div class="detail-row"><span data-i18n="totalDue">মোট বকেয়া</span><b id="choiceDue">৳ ০.০০</b></div>
+  <div class="detail-row"><span data-i18n="yourPayment">আপনার পরিশোধ</span><b id="choiceSelected">৳ ০.০০</b></div>
+</div>
+<div class="pay-options">
+  <button class="pay-option active" id="optFull" onclick="selectPaymentType('full')" data-i18n="optFull">সম্পূর্ণ বকেয়া</button>
+  <button class="pay-option" id="optSingle" onclick="selectPaymentType('single')" data-i18n="optSingle">একটি কিস্তি</button>
+  <button class="pay-option" id="optCustom" onclick="selectPaymentType('custom')" data-i18n="optCustom">নিজের ইচ্ছামতো</button>
+</div>
+<div id="singleSection" class="hidden">
+  <div class="field"><label data-i18n="selectInstallment">কিস্তি বেছে নিন</label><select id="singleInstallment" class="installment-select" onchange="chooseSingleInstallment()"></select></div>
+</div>
+<div id="customSection" class="hidden">
+  <div class="field"><label data-i18n="enterAmount">পরিমাণ লিখুন</label><input id="customPayAmount" type="number" min="1" step="0.01" oninput="chooseCustomAmount()"></div>
+</div>
+<button class="primary" onclick="continueSelectedPayment()" data-i18n="proceedBtn">এগিয়ে যান</button>
+<p class="muted" style="margin-top:10px" data-i18n="payChoiceNote">সম্পূর্ণ বকেয়া, একটি কিস্তি অথবা নিজের পছন্দমতো যেকোনো পরিমাণ দিন।</p></div></div>
+
+<div class="modal-bg" id="paymentModal" onclick="if(event.target===this)closePayment()"><div class="modal">
+ <div class="modal-top"><h3 data-i18n="paymentTitle">কিস্তি পরিশোধ</h3><button class="close" onclick="closePayment()">×</button></div>
+ <div class="field"><label data-i18n="payAmountLabel">পরিশোধের পরিমাণ</label><input id="payAmount" type="text" readonly></div>
+ <div class="pay-brand"><small data-i18n="bkashLabel">বিকাশ পার্সোনাল · SEND MONEY</small><b id="bkashNumber">01712345678</b><button class="copy" onclick="copyNumber()" data-i18n="copyNumber">নম্বর কপি করুন</button></div>
+ <div class="steps" id="paymentSteps"></div>
+ <div class="field"><label data-i18n="senderLabel">যে বিকাশ নম্বর থেকে টাকা পাঠিয়েছেন</label><input id="senderNumber" type="tel" maxlength="11" placeholder="01XXXXXXXXX" inputmode="numeric"></div>
+ <div class="field"><label data-i18n="trxLabel">Transaction ID (TrxID)</label><input id="trxId" type="text" placeholder="বিকাশ TrxID লিখুন" autocomplete="off"></div>
+ <button class="primary" onclick="submitPayment()" data-i18n="submitBtn">পেমেন্ট তথ্য জমা দিন</button>
+ <p class="muted" style="margin-top:10px" data-i18n="noOtpNote">এখানে কোনো বিকাশ PIN বা OTP চাওয়া হবে না।</p>
+</div></div>
+
+<div class="modal-bg" id="guideModal" onclick="if(event.target===this)hideGuide()"><div class="modal"><div class="modal-top"><h3 data-i18n="payGuideTitle">পরিশোধের নির্দেশিকা</h3><button class="close" onclick="hideGuide()">×</button></div><div class="steps" id="guideContent"></div><button class="primary" onclick="hideGuide()" data-i18n="okBtn">ঠিক আছে</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDcCRoIrpeXYvkeugB-AD4nywCvV-YTT7w",
+  authDomain: "palmpaybd-2615f.firebaseapp.com",
+  projectId: "palmpaybd-2615f",
+  storageBucket: "palmpaybd-2615f.firebasestorage.app",
+  messagingSenderId: "702703048413",
+  appId: "1:702703048413:web:7508bc469a61bdda586d34"
+};
+const fireApp = initializeApp(firebaseConfig);
+const db = getFirestore(fireApp);
+const DB_DOC = doc(db, "palmpay_db", "main");
+
+const DEFAULT_DB = {
+  settings:{bkashPersonal:"01712345678",nagadPersonal:"01712345678",rocketPersonal:"01712345678"},
+  notifications:[],
+  users:[{
+    id:"u_demo",phone:"01712345678",password:"1234",name:"MD. LIMON HOSSAIN",
+    nid:"1990123456789",product:"Samsung Galaxy A15",
+    imageUrl:"https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a15.jpg",
+    customerImageUrl:"https://i.pravatar.cc/150?img=11",
+    imei:"356789012345678",purchaseDate:"27 May 2023",
+    kisti:[
+      {no:1,amount:2622,dueDate:"27 May",status:"approved",trxId:"BKH8892145",senderNumber:"01712345678"},
+      {no:2,amount:2613,dueDate:"27 Jun",status:"approved",trxId:"NGD4421985",senderNumber:"01712345678"},
+      {no:3,amount:2730,dueDate:"27 Jul",status:"overdue",daysOverdue:96},
+      {no:4,amount:2730,dueDate:"27 Aug",status:"overdue",daysOverdue:65},
+      {no:5,amount:2730,dueDate:"27 Sep",status:"overdue",daysOverdue:34},
+      {no:6,amount:1915,dueDate:"27 Oct",status:"overdue",daysOverdue:4}
+    ],
+    paymentRequests:[]
+  }]
+};
+
+let _dbCache = null;
+
+function migrate(d){
+  if(!d || typeof d !== "object") d = structuredClone(DEFAULT_DB);
+  if(!d.settings) d.settings = {};
+  if(!d.settings.bkashPersonal) d.settings.bkashPersonal = DEFAULT_DB.settings.bkashPersonal;
+  if(!d.settings.nagadPersonal) d.settings.nagadPersonal = DEFAULT_DB.settings.nagadPersonal;
+  if(!d.settings.rocketPersonal) d.settings.rocketPersonal = DEFAULT_DB.settings.rocketPersonal;
+  if(!Array.isArray(d.notifications)) d.notifications = [];
+  d.users = Array.isArray(d.users) ? d.users : [];
+  d.users = d.users.map(u => ({
+    ...u,
+    id: u.id || ("u_" + Math.random().toString(36).slice(2,9)),
+    password: u.password || u.pass || "1234",
+    kisti: Array.isArray(u.kisti) ? u.kisti : [],
+    paymentRequests: Array.isArray(u.paymentRequests) ? u.paymentRequests : []
+  }));
+  if(!d.users.some(u => u.phone === "01712345678")){
+    d.users.unshift(structuredClone(DEFAULT_DB.users[0]));
+  }
+  return d;
+}
+
+async function initDB(){
+  const snap = await getDoc(DB_DOC);
+  if(!snap.exists()){
+    _dbCache = migrate(structuredClone(DEFAULT_DB));
+    await setDoc(DB_DOC, _dbCache);
+  }else{
+    _dbCache = migrate(snap.data());
+    await setDoc(DB_DOC, _dbCache);
+  }
+  return _dbCache;
+}
+
+function dbLoad(){
+  if(!_dbCache) return migrate(structuredClone(DEFAULT_DB));
+  return structuredClone(_dbCache);
+}
+
+function dbSave(d){
+  _dbCache = structuredClone(d);
+  setDoc(DB_DOC, _dbCache).catch(err => console.error("Firestore save failed:", err));
+}
+
+function listenDB(callback){
+  onSnapshot(DB_DOC, (snap) => {
+    if(snap.exists()){
+      _dbCache = migrate(snap.data());
+      callback();
+    }
+  });
+}
+
+let currentPhone="",selectedNo=0,subPage="";
+let paymentSelection={type:"full",amount:0,no:null};
+let currentLang=localStorage.getItem("palmpay_lang")||"bn";
+
+const I18N={
+ bn:{
+  tagline:"সহজ কিস্তি পরিশোধ সেবা",loginTitle:"আপনার অ্যাকাউন্টে লগইন করুন",loginIntro:"ফোন নম্বর ও পাসওয়ার্ড দিয়ে প্রবেশ করুন",
+  phoneLabel:"মোবাইল নম্বর",passLabel:"পাসওয়ার্ড",loginBtn:"লগইন করুন",copyright:"© PalmPay BD Limited",
+  hello:"স্বাগতম",homeSub:"আপনার মোবাইল কিস্তির বর্তমান অবস্থা দেখুন",
+  loanTitle:"📱 মোবাইল ফোনের কিস্তি",activeTag:"চলমান",deviceInfo:"ডিভাইসের তথ্য",
+  balanceLabel:"বর্তমান বকেয়া",balanceNote:"অনুগ্রহ করে নির্ধারিত সময়ের মধ্যে পরিশোধ করুন",
+  totalInstallments:"মোট কিস্তি",paidSoFar:"পরিশোধ হয়েছে",nextDueLabel:"পরবর্তী / শেষ কিস্তির তারিখ",
+  payNowBtn:"এখনই কিস্তি পরিশোধ করুন",installmentDetails:"কিস্তির বিবরণ",helpGuidance:"সহায়তা ও নির্দেশনা",
+  payGuideTitle:"পরিশোধের নির্দেশিকা",payGuideSub:"কীভাবে কিস্তি পরিশোধ করবেন তা জানুন",
+  reminderTitle:"পরিশোধের রিমাইন্ডার",reminderSub:"কিস্তির তারিখ মনে রাখতে রিমাইন্ডার দেখুন",view:"দেখুন",
+  myAccount:"আমার অ্যাকাউন্ট",profile:"প্রোফাইল",profileSub:"আপনার ব্যক্তিগত তথ্য দেখুন",
+  phoneInfo:"ফোনের তথ্য",phoneInfoSub:"আপনার কেনা ফোনের বিবরণ",
+  accountSettings:"অ্যাকাউন্ট সেটিংস",accountSettingsSub:"পাসওয়ার্ড পরিবর্তন করুন",
+  paymentHistory:"পেমেন্ট হিস্টোরি",paymentHistorySub:"আপনার পূর্বের পরিশোধসমূহ",
+  logoutBtn:"লগ আউট",poweredBy:"Powered by PalmPay BD Limited",navPay:"পরিশোধ",navMe:"আমি",
+  paymentTitle:"কিস্তি পরিশোধ",totalDue:"মোট বকেয়া",yourPayment:"আপনার পরিশোধ",
+  optFull:"সম্পূর্ণ বকেয়া",optSingle:"একটি কিস্তি",optCustom:"নিজের ইচ্ছামতো",
+  selectInstallment:"কিস্তি বেছে নিন",enterAmount:"পরিমাণ লিখুন",proceedBtn:"এগিয়ে যান",
+  payChoiceNote:"সম্পূর্ণ বকেয়া, একটি কিস্তি অথবা নিজের পছন্দমতো যেকোনো পরিমাণ দিন।",
+  payAmountLabel:"পরিশোধের পরিমাণ",bkashLabel:"বিকাশ পার্সোনাল · SEND MONEY",copyNumber:"নম্বর কপি করুন",
+  senderLabel:"যে বিকাশ নম্বর থেকে টাকা পাঠিয়েছেন",trxLabel:"Transaction ID (TrxID)",
+  submitBtn:"পেমেন্ট তথ্য জমা দিন",noOtpNote:"এখানে কোনো বিকাশ PIN বা OTP চাওয়া হবে না।",okBtn:"ঠিক আছে",
+  paid:"পরিশোধিত",pending:"যাচাই চলছে",overdue:"বকেয়া",unpaid:"অপরিশোধিত",overdueDays:"দিন বকেয়া",
+  payNowSmall:"এখন পরিশোধ করুন",trxLabelShort:"TrxID",verifying:"আপনার পেমেন্ট যাচাই করা হচ্ছে।",
+  installmentN:"তম কিস্তি",payDate:"পরিশোধের তারিখ",noDue:"আপনার কোনো বকেয়া কিস্তি নেই",
+  enterAmountToast:"পরিশোধের পরিমাণ লিখুন",overDueToast:"মোট বকেয়ার বেশি পরিমাণ দিতে পারবেন না",
+  invalidPhone:"সঠিক ১১ সংখ্যার বিকাশ নম্বর লিখুন",invalidTrx:"সঠিক TrxID লিখুন",invalidAmount:"সঠিক পরিমাণ লিখুন",
+  paymentSuccess:"আপনার পেমেন্টের তথ্য সফলভাবে জমা হয়েছে।",copied:"bKash নম্বর কপি হয়েছে",copyFail:"নম্বর: ",
+  wrongLogin:"ফোন নম্বর অথবা পাসওয়ার্ড সঠিক নয়",reminderMsg:"কিস্তির তারিখ: ",
+  personalInfo:"ব্যক্তিগত তথ্য",name:"নাম",phone:"ফোন নম্বর",nid:"NID নম্বর",purchaseDate:"ফোন কেনার তারিখ",
+  deviceDetails:"ডিভাইসের বিবরণ",model:"মডেল",imei:"IMEI নম্বর",buyDate:"কেনার তারিখ",lastDueDate:"শেষ কিস্তির তারিখ",
+  yourPayments:"আপনার পেমেন্টসমূহ",noPayments:"এখনো কোনো পেমেন্ট নেই।",
+  changePassword:"পাসওয়ার্ড পরিবর্তন",currentPassword:"বর্তমান পাসওয়ার্ড",newPassword:"নতুন পাসওয়ার্ড",updatePassword:"পাসওয়ার্ড আপডেট করুন",
+  wrongPassword:"বর্তমান পাসওয়ার্ড সঠিক নয়",passwordShort:"নতুন পাসওয়ার্ড কমপক্ষে ৪ অক্ষরের হতে হবে",passwordUpdated:"পাসওয়ার্ড পরিবর্তন হয়েছে",
+  passwordSection:"পাসওয়ার্ড পরিবর্তন",
+  guideSteps:"১. আপনার বকেয়া কিস্তির পাশে “পরিশোধ করুন” চাপুন।<br>২. দেখানো bKash Personal নম্বরে নির্দিষ্ট টাকা Send Money করুন।<br>৩. প্রেরকের নম্বর ও TrxID জমা দিন।<br>৪. আপনার পেমেন্টের তথ্য সফলভাবে জমা হয়ে যাবে।<br><br><b>সতর্কতা:</b> PIN, OTP বা গোপন কোড কাউকে দেবেন না।",
+  paymentSteps:"<b>যেভাবে পেমেন্ট করবেন:</b><br>১. বিকাশ অ্যাপ খুলুন এবং Send Money নির্বাচন করুন।<br>২. উপরের নম্বরে টাকা পাঠান।<br>৩. পেমেন্টের TrxID এবং যে নম্বর থেকে টাকা পাঠিয়েছেন তা লিখুন।<br>৪. তথ্য জমা হলে আপনার পেমেন্টের রেকর্ড সংরক্ষিত হবে।",
+  langChanged:"বাংলা ভাষা নির্বাচন করা হয়েছে",
+  notificationsTitle:"নোটিফিকেশন",clearAll:"সব মুছুন",noNotifs:"কোনো নোটিফিকেশন নেই",
+  permTitle:"নোটিফিকেশন চালু করুন",permSub:"কিস্তি বকেয়া হলে সাথে সাথে জানতে পারবেন",permBtn:"চালু করুন",
+  notifApproved:"পেমেন্ট অনুমোদিত",notifRejected:"পেমেন্ট বাতিল",notifReminder:"কিস্তি বকেয়া",notifWelcome:"স্বাগতম",
+  hoursLeft:"ঘণ্টা বাকি",notifExpired:"নোটিফিকেশন একদিন পর স্বয়ংক্রিয়ভাবে মুছে যাবে"
+ },
+ en:{
+  tagline:"Easy Installment Payment Service",loginTitle:"Log in to your account",loginIntro:"Sign in with phone number and password",
+  phoneLabel:"Phone number",passLabel:"Password",loginBtn:"Log in",copyright:"© PalmPay BD Limited",
+  hello:"Welcome",homeSub:"View your mobile installment status",loanTitle:"📱 Mobile Phone Installment",activeTag:"Active",
+  deviceInfo:"Device info",balanceLabel:"Current Due",balanceNote:"Please pay within the due date",
+  totalInstallments:"Total Installments",paidSoFar:"Paid So Far",nextDueLabel:"Next / Last Installment Date",
+  payNowBtn:"Pay Installment Now",installmentDetails:"Installment Details",helpGuidance:"Help & Guidance",
+  payGuideTitle:"Payment Guide",payGuideSub:"Learn how to pay your installments",
+  reminderTitle:"Payment Reminder",reminderSub:"Check installment dates reminder",view:"View",
+  myAccount:"My Account",profile:"Profile",profileSub:"View your personal information",
+  phoneInfo:"Phone Information",phoneInfoSub:"Details of your purchased phone",
+  accountSettings:"Account Settings",accountSettingsSub:"Change your password",
+  paymentHistory:"Payment History",paymentHistorySub:"Your previous payments",
+  logoutBtn:"Log Out",poweredBy:"Powered by PalmPay BD Limited",navPay:"Payments",navMe:"Me",
+  paymentTitle:"Installment Payment",totalDue:"Total Due",yourPayment:"Your Payment",
+  optFull:"Full Due",optSingle:"One Installment",optCustom:"Custom Amount",
+  selectInstallment:"Select Installment",enterAmount:"Enter Amount",proceedBtn:"Proceed",
+  payChoiceNote:"Pay full due, one installment, or any custom amount.",
+  payAmountLabel:"Payment Amount",bkashLabel:"bKash Personal · SEND MONEY",copyNumber:"Copy Number",
+  senderLabel:"Your bKash number (sender)",trxLabel:"Transaction ID (TrxID)",
+  submitBtn:"Submit Payment Details",noOtpNote:"No bKash PIN or OTP is requested here.",okBtn:"OK",
+  paid:"Paid",pending:"Verifying",overdue:"Overdue",unpaid:"Unpaid",overdueDays:"days overdue",
+  payNowSmall:"Pay Now",trxLabelShort:"TrxID",verifying:"Your payment is being verified.",
+  installmentN:"Installment",payDate:"Due date",noDue:"You have no due installments",
+  enterAmountToast:"Please enter payment amount",overDueToast:"Amount cannot exceed total due",
+  invalidPhone:"Enter a valid 11-digit bKash number",invalidTrx:"Enter a valid TrxID",invalidAmount:"Enter a valid amount",
+  paymentSuccess:"Your payment details have been submitted successfully.",copied:"bKash number copied",copyFail:"Number: ",
+  wrongLogin:"Phone number or password is incorrect",reminderMsg:"Installment date: ",
+  personalInfo:"Personal Information",name:"Name",phone:"Phone",nid:"NID Number",purchaseDate:"Purchase Date",
+  deviceDetails:"Device Details",model:"Model",imei:"IMEI Number",buyDate:"Purchase Date",lastDueDate:"Last Installment Date",
+  yourPayments:"Your Payments",noPayments:"No payments yet.",
+  changePassword:"Change Password",currentPassword:"Current password",newPassword:"New password",updatePassword:"Update Password",
+  wrongPassword:"Current password is incorrect",passwordShort:"New password must be at least 4 characters",passwordUpdated:"Password changed successfully",
+  passwordSection:"Change Password",
+  guideSteps:"1. Tap \"Pay Now\" next to your due installment.<br>2. Send Money to the shown bKash Personal number.<br>3. Submit the sender number and TrxID.<br>4. Your payment details will be submitted successfully.<br><br><b>Warning:</b> Never share your PIN, OTP, or secret code.",
+  paymentSteps:"<b>How to pay:</b><br>1. Open bKash app and select Send Money.<br>2. Send money to the number above.<br>3. Enter the TrxID and your sender number.<br>4. Once submitted, your payment record will be saved.",
+  langChanged:"English language selected",
+  notificationsTitle:"Notifications",clearAll:"Clear all",noNotifs:"No notifications",
+  permTitle:"Enable notifications",permSub:"Get alerted when installments are due",permBtn:"Enable",
+  notifApproved:"Payment Approved",notifRejected:"Payment Rejected",notifReminder:"Installment Overdue",notifWelcome:"Welcome",
+  hoursLeft:"hours left",notifExpired:"Notifications auto-delete after 24 hours"
+ }
+};
+function t(k){return (I18N[currentLang]&&I18N[currentLang][k])||I18N.bn[k]||k}
+
+function applyLanguage(){
+ document.documentElement.lang=currentLang;
+ document.getElementById("langBtn").textContent=currentLang==="bn"?"EN":"বাং";
+ document.querySelectorAll("[data-i18n]").forEach(el=>{el.innerHTML=t(el.getAttribute("data-i18n"))});
+ document.getElementById("paymentSteps").innerHTML=t("paymentSteps");
+ document.getElementById("guideContent").innerHTML=t("guideSteps");
+ if(currentPhone){let u=currentUser();if(u){render();renderNotifications()}}
+}
+function toggleLanguage(){currentLang=currentLang==="bn"?"en":"bn";localStorage.setItem("palmpay_lang",currentLang);applyLanguage();notify(t("langChanged"))}
+
+function money(n){return "৳ "+Number(n||0).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function notify(msg){let tt=document.getElementById("toast");tt.textContent=msg;tt.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>tt.classList.remove("show"),2600)}
+
+function calcDaysOverdue(dueDateStr){
+  if(!dueDateStr) return 0;
+  try{
+    let now = new Date();
+    let parts = String(dueDateStr).trim().split(/\s+/);
+    let day = parseInt(parts[0],10);
+    let months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+    let mon = months[(parts[1]||"").toLowerCase().slice(0,3)];
+    if(isNaN(day)||mon===undefined) return 0;
+    let year = parts[2] ? parseInt(parts[2],10) : now.getFullYear();
+    let due = new Date(year, mon, day);
+    if(!parts[2] && due > now) due.setFullYear(year-1);
+    let diff = Math.floor((now - due) / 86400000);
+    return diff > 0 ? diff : 0;
+  }catch(e){ return 0; }
+}
+
+const NOTIF_PERMISSION_KEY = "palmpay_notif_asked";
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+// ── নোটিফিকেশন হেল্পার: ২৪ ঘণ্টা এক্সপায়ারি সহ ──
+function isNotifActive(n){
+  if(!n || !n.createdAt) return false;
+  return (Date.now() - new Date(n.createdAt).getTime()) <= ONE_DAY_MS;
+}
+function hoursLeft(n){
+  if(!n || !n.createdAt) return 0;
+  return Math.max(0, Math.ceil((ONE_DAY_MS - (Date.now() - new Date(n.createdAt).getTime())) / 3600000));
+}
+
+function addNotification(userPhone, title, message, type){
+  const d = dbLoad();
+  d.notifications = d.notifications || [];
+  const dup = d.notifications.find(n =>
+    n.userPhone === userPhone &&
+    n.title === title &&
+    n.message === message &&
+    (new Date() - new Date(n.createdAt)) < 86400000
+  );
+  if(dup) return;
+  d.notifications.push({
+    id: "n_" + Math.random().toString(36).slice(2,9),
+    userPhone, title, message,
+    type: type||"info",
+    read: false,
+    createdAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
+  });
+  dbSave(d);
+}
+
+function renderNotifications(){
+  if(!currentPhone) return;
+  const d = dbLoad();
+  // ২৪ ঘণ্টার বেশি পুরনো নোটিফিকেশন বাদ
+  const list = (d.notifications||[])
+    .filter(n => n.userPhone === currentPhone || n.userPhone === "*")
+    .filter(isNotifActive)
+    .sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
+
+  const unread = list.filter(n=>!n.read).length;
+  const badge = document.getElementById("notifBadge");
+  if(unread>0){badge.textContent = unread>9?"9+":unread;badge.classList.remove("hidden")}
+  else{badge.classList.add("hidden")}
+
+  const box = document.getElementById("notifList");
+  if(!list.length){
+    box.innerHTML = `<div class="notif-empty"><span class="icon">🔔</span>${t("noNotifs")}<br><small style="font-size:10px;color:#aaa;margin-top:6px;display:block">${t("notifExpired")}</small></div>`;
+    return;
+  }
+  box.innerHTML = list.map(n=>{
+    let dateStr = new Date(n.createdAt).toLocaleString(currentLang==="bn"?"bn-BD":"en-GB",{dateStyle:"short",timeStyle:"short"});
+    const hl = hoursLeft(n);
+    return `<div class="notif-item ${n.read?"read":""}" onclick="markNotifRead('${n.id}')">
+      <div class="notif-title">${safe(n.title)} ${n.read?"":'<span class="notif-dot"></span>'}</div>
+      <div class="notif-msg">${safe(n.message)}</div>
+      <div class="notif-time">${dateStr} · ${hl} ${t("hoursLeft")}</div>
+    </div>`;
+  }).join("");
+}
+
+function markNotifRead(id){
+  const d = dbLoad();
+  const n = (d.notifications||[]).find(x=>x.id===id);
+  if(n){n.read=true;dbSave(d);renderNotifications()}
+}
+
+function openNotifications(){
+  switchTab("notif");
+  renderNotifications();
+}
+
+function clearAllNotifications(){
+  if(!confirm("সব নোটিফিকেশন মুছে ফেলবেন?")) return;
+  const d = dbLoad();
+  d.notifications = (d.notifications||[]).filter(n => n.userPhone !== currentPhone && n.userPhone !== "*");
+  dbSave(d);
+  renderNotifications();
+  notify("নোটিফিকেশন মুছে ফেলা হয়েছে");
+}
+
+function checkAndCreateNotifications(){
+  if(!currentPhone) return;
+  const u = currentUser();
+  if(!u) return;
+  let created = false;
+  (u.kisti||[]).forEach(k=>{
+    if(k.status==="approved"||k.status==="pending") return;
+    const od = (k.daysOverdue && Number(k.daysOverdue)>0) ? Number(k.daysOverdue) : calcDaysOverdue(k.dueDate);
+    if(od>0){
+      const title = t("notifReminder");
+      const msg = currentLang==="bn"
+        ? `আপনার ${k.no}তম কিস্তির ৳${Number(k.amount).toLocaleString("en-BD")} টাকা ${od} দিন বকেয়া হয়েছে।`
+        : `Installment #${k.no} of ৳${Number(k.amount).toLocaleString("en-BD")} is ${od} days overdue.`;
+      const before = (dbLoad().notifications||[]).length;
+      addNotification(currentPhone, title, msg, "overdue");
+      if((dbLoad().notifications||[]).length > before) created = true;
+    }
+  });
+  if(created) renderNotifications();
+}
+
+function checkNotifPermissionUI(){
+  const banner = document.getElementById("permBanner");
+  if(!banner) return;
+  if(!("Notification" in window)){banner.classList.add("hidden");return}
+  if(Notification.permission === "granted" || Notification.permission === "denied"){
+    banner.classList.add("hidden");
+    return;
+  }
+  banner.innerHTML = `<div class="perm-banner">
+    <span class="pb-icon">🔔</span>
+    <div><b>${t("permTitle")}</b><small>${t("permSub")}</small></div>
+    <button onclick="requestNotificationPermission()">${t("permBtn")}</button>
+  </div>`;
+  banner.classList.remove("hidden");
+}
+
+function requestNotificationPermission(){
+  if(!("Notification" in window)){notify("এই ব্রাউজারে নোটিফিকেশন সাপোর্ট নেই");return}
+  Notification.requestPermission().then(perm=>{
+    if(perm === "granted"){
+      notify("নোটিফিকেশন চালু হয়েছে");
+      checkNotifPermissionUI();
+    }else{
+      notify("নোটিফিকেশন অনুমতি দেওয়া হয়নি");
+      checkNotifPermissionUI();
+    }
+  });
+}
+
+function login(){
+  let p=document.getElementById("loginPhone").value.trim(),
+      pw=document.getElementById("loginPass").value;
+  let d=dbLoad();
+  let u=d.users.find(x=>x.phone===p&&(x.password===pw||x.pass===pw));
+  if(!u){notify(t("wrongLogin"));return}
+  currentPhone=u.phone;
+  localStorage.setItem("palmpay_session",currentPhone);
+  showApp();
+}
+function showApp(){
+  let d=dbLoad();
+  let u=d.users.find(x=>x.phone===currentPhone);
+  if(!u){logout();return}
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  render();
+  renderNotifications();
+  checkAndCreateNotifications();
+  const welcomeKey = "palmpay_welcome_" + currentPhone;
+  if(!localStorage.getItem(welcomeKey)){
+    addNotification(currentPhone, t("notifWelcome"), `PalmPay BD-তে আপনাকে স্বাগতম, ${u.name||""}`, "welcome");
+    localStorage.setItem(welcomeKey, "1");
+    renderNotifications();
+  }
+  checkNotifPermissionUI();
+  if(!localStorage.getItem(NOTIF_PERMISSION_KEY) && "Notification" in window && Notification.permission === "default"){
+    setTimeout(()=>{
+      requestNotificationPermission();
+      localStorage.setItem(NOTIF_PERMISSION_KEY, "1");
+    }, 900);
+  }
+}
+function logout(){
+  localStorage.removeItem("palmpay_session");
+  currentPhone="";
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("loginPass").value="";
+}
+function currentUser(){return dbLoad().users.find(x=>x.phone===currentPhone)}
+
+function switchTab(tab){
+  document.getElementById("homePage").classList.toggle("active",tab==="home");
+  document.getElementById("settingsPage").classList.toggle("active",tab==="settings");
+  document.getElementById("subPage").classList.toggle("active",tab==="sub");
+  document.getElementById("notifPage").classList.toggle("active",tab==="notif");
+  document.getElementById("homeNav").classList.toggle("active",tab==="home");
+  document.getElementById("settingsNav").classList.toggle("active",tab==="settings");
+  if(tab==="notif") renderNotifications();
+  if(tab==="home") checkNotifPermissionUI();
+}
+
+function render(){
+ let d=dbLoad(),u=d.users.find(x=>x.phone===currentPhone);
+ if(!u)return;
+ let ks=u.kisti||[],total=ks.reduce((s,k)=>s+Number(k.amount||0),0),
+     paid=ks.filter(k=>k.status==="approved").reduce((s,k)=>s+Number(k.amount||0),0),
+     remaining=total-paid,next=ks.find(k=>k.status!=="approved");
+ document.getElementById("helloName").textContent=t("hello")+", "+(u.name||"");
+ document.getElementById("productName").textContent=u.product||"";
+ document.getElementById("productMeta").textContent=(u.imei?"IMEI: "+u.imei:t("deviceInfo"));
+ document.getElementById("balance").textContent=money(remaining);
+ document.getElementById("totalAmount").textContent=money(total);
+ document.getElementById("paidAmount").textContent=money(paid);
+ document.getElementById("nextDue").textContent=next?.dueDate||"—";
+ document.getElementById("installmentCount").textContent=ks.length+" "+t("installmentN");
+ document.getElementById("settingsName").textContent=u.name||"";
+ document.getElementById("settingsPhone").textContent=u.phone||"";
+
+ const pAvatar = document.getElementById("profileAvatar");
+ if(u.customerImageUrl && u.customerImageUrl.trim() !== ""){
+   pAvatar.innerHTML = `<img src="${safe(u.customerImageUrl)}" alt="Profile" onerror="this.parentNode.innerHTML='♙'">`;
+ }else{
+   pAvatar.innerHTML = '♙';
+ }
+
+ const phoneArt=document.getElementById("phoneArt");
+ if(u.imageUrl&&u.imageUrl.trim()!==""){
+   phoneArt.innerHTML='<img src="'+safe(u.imageUrl)+'" alt="'+safe(u.product||"Phone")+'" onerror="this.parentNode.innerHTML=\'<span>▯</span>\'">';
+ }else{phoneArt.innerHTML='<span>▯</span>'}
+ let list=document.getElementById("scheduleList");list.innerHTML="";
+ ks.forEach(k=>{
+  let statusText,cls,canPay=true;
+  if(k.status==="approved"){statusText=t("paid");cls="paid";canPay=false}
+  else if(k.status==="pending"){statusText=t("pending");cls="pending";canPay=false}
+  else if(k.status==="overdue"){statusText=t("overdue");cls="due"}
+  else{statusText=t("unpaid");cls="unpaid"}
+  let od = (k.daysOverdue && Number(k.daysOverdue)>0) ? Number(k.daysOverdue) : calcDaysOverdue(k.dueDate);
+  let overdueText="";
+  if(k.status!=="approved" && k.status!=="pending" && od>0){
+    overdueText=`<div class="overdue-badge">⚠️ ${od} ${t("overdueDays")}</div>`;
+  }
+  let detailContent="";
+  if(canPay){detailContent=`${overdueText}<button class="pay-small" onclick="openPayment(${Number(k.no)},${Number(k.amount)})">${t("payNowSmall")} · ${money(k.amount)}</button>`}
+  else if(k.status==="pending"){detailContent=`<p>${t("verifying")}</p>`}
+  else{detailContent=`<p>${t("trxLabelShort")}: ${safe(k.trxId||"-")}</p>`}
+  let el=document.createElement("div");el.className="installment";
+  el.innerHTML=`<div class="installment-head"><div class="inst-left"><b>${k.no} ${t("installmentN")}</b><small>${t("payDate")}: ${safe(k.dueDate||"-")}</small></div><div class="inst-right"><b>${money(k.amount)}</b><span class="status ${cls}">${statusText}</span></div></div><div class="inst-detail">${detailContent}</div>`;
+  el.querySelector(".installment-head").onclick=()=>el.classList.toggle("open");
+  list.appendChild(el);
+ });
+}
+
+function openPaymentChoice(){
+ const u=currentUser(),ks=u?.kisti||[],
+       due=ks.filter(k=>k.status!=="approved"&&k.status!=="pending").reduce((a,k)=>a+Number(k.amount||0),0);
+ if(due<=0){notify(t("noDue"));return}
+ paymentSelection={type:"full",amount:due,no:null};
+ document.getElementById("choiceDue").textContent=money(due);
+ document.getElementById("choiceSelected").textContent=money(due);
+ document.getElementById("optFull").classList.add("active");
+ document.getElementById("optSingle").classList.remove("active");
+ document.getElementById("optCustom").classList.remove("active");
+ document.getElementById("singleSection").classList.add("hidden");
+ document.getElementById("customSection").classList.add("hidden");
+ document.getElementById("customPayAmount").value="";
+ const sel=document.getElementById("singleInstallment");
+ sel.innerHTML='<option value="">'+t("selectInstallment")+'</option>';
+ ks.filter(k=>k.status!=="approved"&&k.status!=="pending").forEach(k=>{
+   let o=document.createElement("option");o.value=k.no;
+   o.textContent=k.no+" "+t("installmentN")+" — "+money(k.amount)+" ("+k.dueDate+")";
+   sel.appendChild(o);
+ });
+ document.getElementById("choiceModal").classList.add("show");
+}
+function selectPaymentType(type){
+ if(type==="full"){
+   document.getElementById("optFull").classList.add("active");
+   document.getElementById("optSingle").classList.remove("active");
+   document.getElementById("optCustom").classList.remove("active");
+   document.getElementById("singleSection").classList.add("hidden");
+   document.getElementById("customSection").classList.add("hidden");
+   let u=currentUser(),due=(u.kisti||[]).filter(k=>k.status!=="approved"&&k.status!=="pending").reduce((a,k)=>a+Number(k.amount||0),0);
+   paymentSelection={type:"full",amount:due,no:null};
+   document.getElementById("choiceSelected").textContent=money(due);
+   document.getElementById("singleInstallment").value="";
+   document.getElementById("customPayAmount").value="";
+ }else if(type==="single"){
+   document.getElementById("optFull").classList.remove("active");
+   document.getElementById("optSingle").classList.add("active");
+   document.getElementById("optCustom").classList.remove("active");
+   document.getElementById("singleSection").classList.remove("hidden");
+   document.getElementById("customSection").classList.add("hidden");
+   paymentSelection={type:"single",amount:0,no:null};
+   document.getElementById("choiceSelected").textContent=money(0);
+   document.getElementById("customPayAmount").value="";
+ }else{
+   document.getElementById("optFull").classList.remove("active");
+   document.getElementById("optSingle").classList.remove("active");
+   document.getElementById("optCustom").classList.add("active");
+   document.getElementById("singleSection").classList.add("hidden");
+   document.getElementById("customSection").classList.remove("hidden");
+   paymentSelection={type:"custom",amount:0,no:null};
+   document.getElementById("choiceSelected").textContent=money(0);
+   document.getElementById("singleInstallment").value="";
+ }
+}
+function chooseSingleInstallment(){
+ let no=Number(document.getElementById("singleInstallment").value),
+     k=currentUser()?.kisti.find(x=>Number(x.no)===no);
+ if(!k)return;
+ paymentSelection={type:"single",amount:Number(k.amount),no};
+ document.getElementById("choiceSelected").textContent=money(k.amount);
+ document.getElementById("customPayAmount").value="";
+}
+function chooseCustomAmount(){
+ let amount=Number(document.getElementById("customPayAmount").value);
+ paymentSelection={type:"custom",amount,no:null};
+ document.getElementById("singleInstallment").value="";
+ document.getElementById("choiceSelected").textContent=amount>0?money(amount):money(0);
+}
+function continueSelectedPayment(){
+ let amount=Number(paymentSelection.amount),
+     u=currentUser(),
+     due=(u.kisti||[]).filter(k=>k.status!=="approved"&&k.status!=="pending").reduce((a,k)=>a+Number(k.amount||0),0);
+ if(!Number.isFinite(amount)||amount<=0){notify(t("enterAmountToast"));return}
+ if(amount>due){notify(t("overDueToast"));return}
+ selectedNo=paymentSelection.no||0;
+ document.getElementById("payAmount").value=money(amount);
+ document.getElementById("bkashNumber").textContent=dbLoad().settings.bkashPersonal||"—";
+ document.getElementById("senderNumber").value="";
+ document.getElementById("trxId").value="";
+ closeChoice();
+ document.getElementById("paymentModal").classList.add("show");
+}
+function openPayment(no,amount){
+ paymentSelection={type:"single",amount:Number(amount),no:Number(no)};
+ selectedNo=Number(no);
+ document.getElementById("payAmount").value=money(amount);
+ document.getElementById("bkashNumber").textContent=dbLoad().settings.bkashPersonal||"—";
+ document.getElementById("senderNumber").value="";
+ document.getElementById("trxId").value="";
+ document.getElementById("paymentModal").classList.add("show");
+}
+function closeChoice(){document.getElementById("choiceModal").classList.remove("show")}
+function closePayment(){document.getElementById("paymentModal").classList.remove("show")}
+function copyNumber(){let n=document.getElementById("bkashNumber").textContent;if(n.includes("—")){notify(t("copyFail")+n);return}if(navigator.clipboard?.writeText){navigator.clipboard.writeText(n).then(()=>notify(t("copied"))).catch(()=>notify(t("copyFail")+n))}else notify(t("copyFail")+n)}
+
+function submitPayment(){
+ let sender=document.getElementById("senderNumber").value.trim(),
+     trx=document.getElementById("trxId").value.trim(),
+     d=dbLoad(),
+     u=d.users.find(x=>x.phone===currentPhone),
+     amount=Number(paymentSelection.amount);
+ if(!/^01[3-9]\d{8}$/.test(sender)){notify(t("invalidPhone"));return}
+ if(trx.length<5){notify(t("invalidTrx"));return}
+ if(!Number.isFinite(amount)||amount<=0){notify(t("invalidAmount"));return}
+ let request={amount,type:paymentSelection.type,installmentNo:paymentSelection.no,senderNumber:sender,trxId:trx,payMethod:"bKash Personal",status:"pending",submittedAt:new Date().toISOString()};
+ u.paymentRequests=u.paymentRequests||[];
+ u.paymentRequests.push(request);
+ if(paymentSelection.type==="single"&&paymentSelection.no){
+   let k=u.kisti.find(x=>Number(x.no)===Number(paymentSelection.no));
+   if(k&&k.status!=="approved"){k.status="pending";k.trxId=trx;k.senderNumber=sender;k.submittedAt=request.submittedAt}
+ }
+ // ── Admin কে নোটিফিকেশন (২৪ ঘণ্টা valid) ──
+ d.notifications = d.notifications || [];
+ d.notifications.push({
+   id: "n_" + Math.random().toString(36).slice(2,9),
+   userPhone: "*",
+   adminNotification: true,
+   title: "নতুন পেমেন্ট রিকোয়েস্ট 💰",
+   message: `${u.name} (${u.phone}) ৳${Number(amount).toLocaleString("en-BD")} পেমেন্ট জমা দিয়েছেন — TrxID: ${trx}`,
+   type: "admin",
+   read: false,
+   createdAt: new Date().toISOString(),
+   expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
+ });
+ dbSave(d);
+ closePayment();render();renderNotifications();notify(t("paymentSuccess"));
+}
+function showPayGuide(){document.getElementById("guideContent").innerHTML=t("guideSteps");document.getElementById("guideModal").classList.add("show")}
+function hideGuide(){document.getElementById("guideModal").classList.remove("show")}
+function showReminder(){notify(t("reminderMsg")+(document.getElementById("nextDue").textContent))}
+
+function openSub(which){
+ subPage=which;
+ let d=dbLoad(),u=d.users.find(x=>x.phone===currentPhone),title="",content="";
+ if(which==="profile"){
+   title=t("profile");
+   let avatarHtml = "";
+   if(u.customerImageUrl && u.customerImageUrl.trim() !== ""){
+     avatarHtml = `<img src="${safe(u.customerImageUrl)}" class="profile-img-large" alt="Profile" onerror="this.style.display='none'">`;
+   }
+   content=`<div class="panel">
+      ${avatarHtml}
+      <h3 style="text-align:center;margin-bottom:16px">${t("personalInfo")}</h3>
+      ${row(t("name"),u.name)}
+      ${row(t("phone"),u.phone)}
+      ${row(t("nid"),u.nid)}
+      ${row(t("purchaseDate"),u.purchaseDate)}
+   </div>`;
+ }else if(which==="device"){
+   title=t("phoneInfo");
+   let imgBlock=u.imageUrl?`<div style="text-align:center;margin-bottom:14px"><img src="${safe(u.imageUrl)}" alt="${safe(u.product||"")}" style="max-width:140px;border-radius:14px;border:1px solid #eee" onerror="this.style.display='none'"></div>`:"";
+   content=`<div class="panel"><h3>${t("deviceDetails")}</h3>${imgBlock}${row(t("model"),u.product)}${row(t("imei"),u.imei)}${row(t("buyDate"),u.purchaseDate)}${row(t("lastDueDate"),u.kisti?.slice(-1)[0]?.dueDate||"-")}</div>`;
+ }else if(which==="history"){
+   title=t("paymentHistory");
+   let paid=(u.kisti||[]).filter(k=>k.status==="approved"||k.status==="pending");
+   content=`<div class="panel"><h3>${t("yourPayments")}</h3>${paid.length?paid.map(k=>row(k.no+" "+t("installmentN")+" · "+(k.status==="approved"?t("paid"):t("pending")),money(k.amount)+" · "+(k.trxId||""))).join(""):"<p class='muted'>"+t("noPayments")+"</p>"}</div>`;
+ }else{
+   title=t("accountSettings");
+   content=`<div class="panel"><h3>${t("passwordSection")}</h3><div class="field"><label>${t("currentPassword")}</label><input id="oldPassword" type="password"></div><div class="field"><label>${t("newPassword")}</label><input id="newPassword" type="password"></div><button class="primary" onclick="changePassword()">${t("updatePassword")}</button></div>`;
+ }
+ document.getElementById("subTitle").textContent=title;
+ document.getElementById("subContent").innerHTML=content;
+ document.getElementById("homePage").classList.remove("active");
+ document.getElementById("settingsPage").classList.remove("active");
+ document.getElementById("notifPage").classList.remove("active");
+ document.getElementById("subPage").classList.add("active");
+}
+function row(label,value){return `<div class="detail-row"><span>${safe(label)}</span><b>${safe(value||"-")}</b></div>`}
+function closeSub(){switchTab("settings")}
+
+function changePassword(){
+ let old=document.getElementById("oldPassword").value,
+     nw=document.getElementById("newPassword").value,
+     d=dbLoad(),
+     u=d.users.find(x=>x.phone===currentPhone);
+ if((u.password||u.pass)!==old){notify(t("wrongPassword"));return}
+ if(nw.length<4){notify(t("passwordShort"));return}
+ u.password=nw;delete u.pass;dbSave(d);
+ document.getElementById("oldPassword").value="";
+ document.getElementById("newPassword").value="";
+ notify(t("passwordUpdated"));
+}
+
+window.login=login;window.logout=logout;window.switchTab=switchTab;
+window.openNotifications=openNotifications;window.clearAllNotifications=clearAllNotifications;
+window.toggleLanguage=toggleLanguage;window.markNotifRead=markNotifRead;
+window.openPaymentChoice=openPaymentChoice;window.selectPaymentType=selectPaymentType;
+window.chooseSingleInstallment=chooseSingleInstallment;window.chooseCustomAmount=chooseCustomAmount;
+window.continueSelectedPayment=continueSelectedPayment;window.openPayment=openPayment;
+window.closeChoice=closeChoice;window.closePayment=closePayment;window.copyNumber=copyNumber;
+window.submitPayment=submitPayment;window.showPayGuide=showPayGuide;window.hideGuide=hideGuide;
+window.showReminder=showReminder;window.openSub=openSub;window.closeSub=closeSub;
+window.changePassword=changePassword;window.requestNotificationPermission=requestNotificationPermission;
+
+// প্রতি ৫ মিনিটে অটো রিফ্রেশ নোটিফিকেশন (২৪ ঘণ্টা এক্সপায়ারি কার্যকর করতে)
+setInterval(()=>{
+  if(currentPhone){renderNotifications();}
+}, 5*60*1000);
+
+window.addEventListener("DOMContentLoaded", async ()=>{
+  applyLanguage();
+  document.getElementById("loginPhone").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+  document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+
+  try{
+    await initDB();
+  }catch(err){
+    console.error("Firebase init failed:", err);
+    document.getElementById("loadingScreen").innerHTML = '<div style="padding:24px;text-align:center;color:#e34e5b;font-size:14px">Firebase কানেকশন ব্যর্থ হয়েছে।<br><small style="color:#858598">'+safe(err.message||"")+'</small></div>';
+    return;
+  }
+  document.getElementById("loadingScreen").classList.add("hidden");
+
+  listenDB(() => {
+    if(currentPhone){ render(); renderNotifications(); }
+  });
+
+  let s = localStorage.getItem("palmpay_session");
+  if (s) {
+    currentPhone = s;
+    let u = currentUser();
+    if (u) showApp();
+    else {
+      localStorage.removeItem("palmpay_session");
+      document.getElementById("loginScreen").classList.remove("hidden");
+    }
+  } else {
+    document.getElementById("loginScreen").classList.remove("hidden");
+  }
+});
+</script>
+</body>
+</html>

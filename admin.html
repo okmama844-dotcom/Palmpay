@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#202033">
+<title>PalmPay BD | Admin Panel</title>
+<style>
+:root{--p:#7000ff;--p2:#8b3dff;--bg:#f4f4f8;--ink:#1c1c2e;--muted:#858598;--line:#e6e6ee;--green:#16a36a;--red:#e34e5b;--amber:#d58a16;--white:#fff}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:76px}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}
+
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(150deg,#1e1b2e,#3a2a5c)}
+.login-box{width:100%;max-width:380px;background:#fff;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px #0005}
+.login-box .logo{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,#7000ff,#9c58ff);display:grid;place-items:center;margin:0 auto 14px;font-size:28px;color:#fff}
+.login-box h1{font-size:22px;text-align:center;margin-bottom:4px}
+.login-box p{font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px}
+
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;border:1px solid #ddd;border-radius:11px;padding:12px 14px;font-size:14px;outline:none;background:#fafafd}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px #7000ff15;background:#fff}
+.btn{border:0;border-radius:11px;padding:12px 18px;font-weight:800;font-size:14px;cursor:pointer}
+.btn-primary{background:linear-gradient(100deg,var(--p),var(--p2));color:#fff;box-shadow:0 6px 16px #7000ff30}
+.btn-outline{background:#fff;color:var(--p);border:1px solid #ddd}
+.btn-danger{background:#fff0f0;color:var(--red);border:1px solid #ffd0d5}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
+
+.admin-layout{min-height:100vh;padding:0 0 76px}
+.main{padding:20px 22px 20px;max-width:1200px;margin:0 auto}
+
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:40;box-shadow:0 -4px 20px #0000000f;padding-bottom:env(safe-area-inset-bottom)}
+.bottom-nav .nav{flex:1;border:0;background:transparent;color:#9b99a8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;padding:0}
+.bottom-nav .nav .ic{font-size:19px;line-height:1}
+.bottom-nav .nav.active{color:var(--p)}
+.bottom-nav .nav.active .ic{transform:scale(1.1)}
+.bottom-nav .nav .badge-count{position:absolute;top:6px;right:calc(50% - 20px);background:var(--p);color:#fff;font-size:9px;font-weight:800;border-radius:20px;padding:1px 5px;min-width:16px;text-align:center;border:2px solid #fff}
+@media(min-width:768px){
+  .bottom-nav{max-width:640px;margin:0 auto;border-radius:20px 20px 0 0;left:50%;right:auto;transform:translateX(-50%);width:100%}
+  .bottom-nav .nav{flex-direction:row;gap:8px;font-size:12px}
+  .bottom-nav .nav .ic{font-size:17px}
+  .bottom-nav .nav .badge-count{top:auto;right:auto;margin-left:4px;position:static}
+}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.topbar h2{font-size:21px}
+.topbar .sub{font-size:12px;color:var(--muted)}
+
+.grid{display:grid;gap:14px}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:900px){.grid-3{grid-template-columns:1fr 1fr}.grid-2{grid-template-columns:1fr}}
+@media(max-width:600px){.grid-3,.grid-2{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 3px 14px #0000000a;border:1px solid #f0f0f5}
+.stat{display:flex;align-items:center;gap:12px}
+.stat .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex-shrink:0}
+.stat b{font-size:22px;display:block}
+.stat small{font-size:11px;color:var(--muted)}
+
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:10px 8px;color:var(--muted);font-weight:700;font-size:11px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 8px;border-bottom:1px solid #f2f2f6;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+
+.pill{font-size:10px;font-weight:800;padding:4px 8px;border-radius:20px;display:inline-block}
+.pill-green{background:#e4f8ef;color:var(--green)}
+.pill-red{background:#fff0ef;color:var(--red)}
+.pill-amber{background:#fff5df;color:var(--amber)}
+.pill-gray{background:#f0eff4;color:#777}
+.pill-purple{background:#f0e8ff;color:var(--p)}
+.thumb{width:42px;height:42px;border-radius:9px;object-fit:cover;background:#f3f0fa;border:1px solid #eee}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.section-head h3{font-size:16px}
+.section-head .sub{font-size:11.5px;color:var(--muted)}
+
+.modal-bg{display:none;position:fixed;inset:0;background:#15122188;z-index:80;align-items:center;justify-content:center;padding:18px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:18px;padding:22px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto}
+.modal h3{font-size:17px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal .close{border:0;background:#f2f1f6;border-radius:50%;width:30px;height:30px;font-size:18px;cursor:pointer}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:640px){.form-row,.form-row-3{grid-template-columns:1fr}}
+.toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:#252238;color:#fff;padding:11px 18px;border-radius:11px;font-size:12.5px;opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:92%;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tab{border:1px solid #e0e0ea;background:#fff;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;color:#666;cursor:pointer}
+.tab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:30px 10px}
+.req-card{border:1px solid #eee;border-radius:13px;padding:13px;margin-bottom:10px;background:#fafafd}
+.req-card .row{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:4px 0}
+.req-card .row span{color:var(--muted)}
+.req-actions{display:flex;gap:8px;margin-top:10px}
+.search{width:100%;max-width:280px;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:13px;outline:none}
+
+.inst-editor{border:1px solid #e6e6ee;border-radius:12px;padding:12px;margin-bottom:10px;background:#fafafd;position:relative}
+.inst-editor .inst-num{position:absolute;top:-9px;left:12px;background:var(--p);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px}
+.inst-editor .del{position:absolute;top:-9px;right:12px;border:0;background:#fff0f0;color:var(--red);border-radius:10px;font-size:10px;font-weight:800;padding:2px 8px;cursor:pointer}
+.inst-editor .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+.inst-editor .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.inst-editor label{font-size:10px;color:#777;font-weight:700;display:block;margin-bottom:3px}
+.inst-editor input,.inst-editor select{width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;font-size:12.5px;background:#fff;outline:none}
+.inst-editor input:focus,.inst-editor select:focus{border-color:var(--p)}
+@media(max-width:640px){.inst-editor .grid3{grid-template-columns:1fr 1fr}}
+.inst-summary{background:#f5eeff;border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.inst-summary b{color:var(--p)}
+
+.kisti-row{border:1px solid #eee;border-radius:12px;padding:11px 12px;margin-bottom:8px;background:#fafafd;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.kisti-row .kl{font-size:12.5px}
+.kisti-row .kl b{font-size:13px;display:block}
+.kisti-row .kl small{font-size:10.5px;color:var(--muted);display:block;margin-top:2px}
+.kisti-row .kr{text-align:right}
+.kisti-row .kr b{font-size:13.5px;display:block}
+.overdue-tag{display:inline-block;background:#fff0ef;color:var(--red);font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;margin-top:4px}
+.overdue-tag.ok{background:#e4f8ef;color:var(--green)}
+
+.notif-bell{position:relative;border:0;background:#f1eaff;color:var(--p);width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;flex-shrink:0}
+.notif-bell .badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:10px;font-weight:800;border-radius:50%;min-width:18px;height:18px;display:grid;place-items:center;border:2px solid #fff}
+.notif-list{max-height:500px;overflow-y:auto}
+.notif-item{background:#fafafd;border-radius:12px;padding:11px 13px;margin-bottom:8px;border-left:3px solid var(--p);cursor:pointer}
+.notif-item.read{opacity:.6;border-left-color:#ddd}
+.notif-item b{font-size:12.5px;display:block}
+.notif-item p{font-size:11.5px;color:#666;margin:4px 0}
+.notif-item small{font-size:10px;color:#999}
+.loading-screen{position:fixed;inset:0;background:#202033;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:999}
+.loading-screen .spinner{width:44px;height:44px;border:4px solid #ffffff22;border-top-color:#7000ff;border-radius:50%;animation:spin .8s linear infinite}
+.loading-screen .txt{color:#fff;font-size:13px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.img-preview{width:50px;height:50px;border-radius:8px;object-fit:cover;background:#f0f0f0;margin-top:8px;display:none;border:1px solid #ddd}
+</style>
+</head>
+<body>
+
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="txt">ডেটা লোড হচ্ছে...</div>
+</div>
+
+<div class="login-wrap hidden" id="loginView">
+  <div class="login-box">
+    <div class="logo">🛡️</div>
+    <h1>Admin Panel</h1>
+    <p>PalmPay BD Installment Management</p>
+    <div class="field"><label>Admin Password</label><input id="adminPass" type="password" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+    <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Login</button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:16px">Default password: <b>admin123</b></p>
+  </div>
+</div>
+
+<div class="admin-layout hidden" id="adminView">
+  <main class="main">
+
+    <section id="tab-dashboard">
+      <div class="topbar">
+        <div><h2>Dashboard</h2><div class="sub">Overview of all users and installments</div></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="notif-bell" onclick="switchAdmin('notifications')">🔔<span id="topNotifBadge" class="badge hidden">0</span></button>
+          <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ New User</button>
+        </div>
+      </div>
+      <div class="grid grid-3" style="margin-bottom:18px">
+        <div class="card stat"><div class="ico" style="background:#f0e8ff;color:#7000ff">👥</div><div><b id="statUsers">0</b><small>Total Users</small></div></div>
+        <div class="card stat"><div class="ico" style="background:#e4f8ef;color:#16a36a">💰</div><div><b id="statCollected">৳0</b><small>Total Collected</small></div></div>
+        <div class="card stat"><div class="ico" style="background:#fff0ef;color:#e34e5b">⏳</div><div><b id="statDue">৳0</b><small>Total Due</small></div></div>
+      </div>
+      <div class="grid grid-2" style="margin-bottom:18px">
+        <div class="card stat"><div class="ico" style="background:#fff5df;color:#d58a16">📥</div><div><b id="statPending">0</b><small>Pending Payment Requests</small></div></div>
+        <div class="card stat"><div class="ico" style="background:#fff0ef;color:#e34e5b">🔥</div><div><b id="statOverdue">0</b><small>Overdue Installments</small></div></div>
+      </div>
+      <div class="card">
+        <div class="section-head"><div><h3>Recent Users</h3><div class="sub">Latest customer accounts</div></div>
+          <button class="btn btn-outline btn-sm" onclick="switchAdmin('users')">View all</button></div>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Photo</th><th>Name</th><th>Phone</th><th>Product</th><th>Due</th></tr></thead>
+          <tbody id="dashUsersBody"></tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <section id="tab-users" class="hidden">
+      <div class="topbar"><div><h2>Users</h2><div class="sub">Manage all customer accounts</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <input class="search" id="userSearch" placeholder="Search name / phone..." oninput="renderUsers()">
+          <button class="btn btn-primary btn-sm" onclick="openUserModal()">+ New User</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap"><table>
+          <thead><tr><th>Photo</th><th>Name</th><th>Phone</th><th>Product</th><th>Installments</th><th>Due</th><th style="text-align:right">Actions</th></tr></thead>
+          <tbody id="usersBody"></tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <section id="tab-payments" class="hidden">
+      <div class="topbar"><div><h2>Payment Requests</h2><div class="sub">Verify TrxID & approve payments</div></div></div>
+      <div class="tabs">
+        <button class="tab active" data-filter="pending" onclick="filterPayments('pending',this)">Pending</button>
+        <button class="tab" data-filter="all" onclick="filterPayments('all',this)">All</button>
+      </div>
+      <div id="paymentsList"></div>
+    </section>
+
+    <section id="tab-notifications" class="hidden">
+      <div class="topbar"><div><h2>Notifications</h2><div class="sub">All system notifications (24h active)</div></div>
+        <button class="btn btn-outline btn-sm" onclick="clearAdminNotifications()">Clear read</button>
+      </div>
+      <div class="card"><div class="notif-list" id="adminNotifList"></div></div>
+    </section>
+
+    <section id="tab-settings" class="hidden">
+      <div class="topbar"><div><h2>Settings</h2><div class="sub">Payment numbers & system configuration</div></div></div>
+      <div class="card" style="max-width:520px">
+        <h3 style="font-size:15px;margin-bottom:14px">Payment Numbers</h3>
+        <div class="field"><label>bKash Personal</label><input id="setBkash" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label>Nagad Personal</label><input id="setNagad" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label>Rocket Personal</label><input id="setRocket" placeholder="01XXXXXXXXX"></div>
+        <button class="btn btn-primary" style="width:100%" onclick="saveSettings()">Save Settings</button>
+      </div>
+      <div class="card" style="max-width:520px;margin-top:16px">
+        <h3 style="font-size:15px;margin-bottom:8px">Danger Zone</h3>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Reset all data to factory defaults. This cannot be undone.</p>
+        <button class="btn btn-danger" style="width:100%" onclick="resetAllData()">Reset All Data</button>
+      </div>
+      <div class="card" style="max-width:520px;margin-top:16px">
+        <button class="btn btn-outline" style="width:100%;color:var(--red)" onclick="adminLogout()">🚪 Logout</button>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav active" data-tab="dashboard" onclick="switchAdmin('dashboard')"><span class="ic">📊</span><span>Dashboard</span></button>
+    <button class="nav" data-tab="users" onclick="switchAdmin('users')"><span class="ic">👥</span><span>Users</span></button>
+    <button class="nav" data-tab="payments" onclick="switchAdmin('payments')"><span class="ic">💳</span><span>Payments</span><span class="badge-count" id="reqBadge">0</span></button>
+    <button class="nav" data-tab="notifications" onclick="switchAdmin('notifications')"><span class="ic">🔔</span><span>Alerts</span><span class="badge-count hidden" id="notifAdminBadge">0</span></button>
+    <button class="nav" data-tab="settings" onclick="switchAdmin('settings')"><span class="ic">⚙️</span><span>Settings</span></button>
+  </nav>
+</div>
+
+<div class="modal-bg" id="userModal" onclick="if(event.target===this)closeUserModal()">
+  <div class="modal">
+    <h3><span id="userModalTitle">New User</span><button class="close" onclick="closeUserModal()">×</button></h3>
+    <input type="hidden" id="editUserId">
+    <div class="form-row">
+      <div class="field"><label>Name</label><input id="uName" placeholder="Full name"></div>
+      <div class="field"><label>Phone</label><input id="uPhone" placeholder="01XXXXXXXXX" maxlength="11"></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Password</label><input id="uPassword" placeholder="Password (default 1234)"></div>
+      <div class="field"><label>NID</label><input id="uNid" placeholder="NID number"></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Product Name</label><input id="uProduct" placeholder="e.g. Samsung Galaxy A15"></div>
+      <div class="field"><label>IMEI</label><input id="uImei" placeholder="IMEI number"></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label>Purchase Date</label><input id="uPurchaseDate" placeholder="e.g. 27 May 2023"></div>
+      <div class="field" style="grid-column: span 2;">
+        <label>Product Image URL (Direct link)</label><input id="uImageUrl" placeholder="https://...jpg">
+        <img id="previewProductImg" class="img-preview">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field" style="grid-column: span 2;">
+        <label>Customer Photo URL (Direct link)</label><input id="uCustomerImageUrl" placeholder="https://...jpg">
+        <img id="previewCustomerImg" class="img-preview">
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 8px">
+      <h4 style="font-size:14px">Installments</h4>
+      <button class="btn btn-outline btn-sm" onclick="addInstallmentRow()">+ Add Installment</button>
+    </div>
+    <div class="inst-summary">
+      <span>Total: <b id="sumTotal">৳0</b></span>
+      <span>Paid: <b id="sumPaid">৳0</b></span>
+      <span>Due: <b id="sumDue">৳0</b></span>
+    </div>
+    <div id="installmentsEditor"></div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn btn-outline" onclick="closeUserModal()" style="flex:1">Cancel</button>
+      <button class="btn btn-primary" onclick="saveUser()" style="flex:1">Save User</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="userDetailModal" onclick="if(event.target===this)closeUserDetail()">
+  <div class="modal">
+    <h3><span id="userDetailTitle">User</span><button class="close" onclick="closeUserDetail()">×</button></h3>
+    <div id="userDetailBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDcCRoIrpeXYvkeugB-AD4nywCvV-YTT7w",
+  authDomain: "palmpaybd-2615f.firebaseapp.com",
+  projectId: "palmpaybd-2615f",
+  storageBucket: "palmpaybd-2615f.firebasestorage.app",
+  messagingSenderId: "702703048413",
+  appId: "1:702703048413:web:7508bc469a61bdda586d34"
+};
+const fireApp = initializeApp(firebaseConfig);
+const db = getFirestore(fireApp);
+const DB_DOC = doc(db, "palmpay_db", "main");
+
+const DEFAULT_DB = {
+  settings:{bkashPersonal:"01712345678",nagadPersonal:"01712345678",rocketPersonal:"01712345678"},
+  notifications:[],
+  users:[{
+    id:"u_demo",phone:"01712345678",password:"1234",name:"MD. LIMON HOSSAIN",
+    nid:"1990123456789",product:"Samsung Galaxy A15",
+    imageUrl:"https://fdn2.gsmarena.com/vv/bigpic/samsung-galaxy-a15.jpg",
+    customerImageUrl:"https://i.pravatar.cc/150?img=11",
+    imei:"356789012345678",purchaseDate:"27 May 2023",
+    kisti:[
+      {no:1,amount:2622,dueDate:"27 May",status:"approved",trxId:"BKH8892145",senderNumber:"01712345678"},
+      {no:2,amount:2613,dueDate:"27 Jun",status:"approved",trxId:"NGD4421985",senderNumber:"01712345678"},
+      {no:3,amount:2730,dueDate:"27 Jul",status:"overdue",daysOverdue:96},
+      {no:4,amount:2730,dueDate:"27 Aug",status:"overdue",daysOverdue:65},
+      {no:5,amount:2730,dueDate:"27 Sep",status:"overdue",daysOverdue:34},
+      {no:6,amount:1915,dueDate:"27 Oct",status:"overdue",daysOverdue:4}
+    ],
+    paymentRequests:[]
+  }]
+};
+
+let _dbCache = null;
+
+function migrate(d){
+  if(!d || typeof d !== "object") d = structuredClone(DEFAULT_DB);
+  if(!d.settings) d.settings = {};
+  if(!d.settings.bkashPersonal) d.settings.bkashPersonal = DEFAULT_DB.settings.bkashPersonal;
+  if(!d.settings.nagadPersonal) d.settings.nagadPersonal = DEFAULT_DB.settings.nagadPersonal;
+  if(!d.settings.rocketPersonal) d.settings.rocketPersonal = DEFAULT_DB.settings.rocketPersonal;
+  if(!Array.isArray(d.notifications)) d.notifications = [];
+  d.users = Array.isArray(d.users) ? d.users : [];
+  d.users = d.users.map(u => ({
+    ...u,
+    id: u.id || ("u_" + Math.random().toString(36).slice(2,9)),
+    password: u.password || u.pass || "1234",
+    kisti: Array.isArray(u.kisti) ? u.kisti : [],
+    paymentRequests: Array.isArray(u.paymentRequests) ? u.paymentRequests : []
+  }));
+  if(!d.users.some(u => u.phone === "01712345678")){
+    d.users.unshift(structuredClone(DEFAULT_DB.users[0]));
+  }
+  return d;
+}
+
+async function initDB(){
+  const snap = await getDoc(DB_DOC);
+  if(!snap.exists()){
+    _dbCache = migrate(structuredClone(DEFAULT_DB));
+    await setDoc(DB_DOC, _dbCache);
+  }else{
+    _dbCache = migrate(snap.data());
+    await setDoc(DB_DOC, _dbCache);
+  }
+  return _dbCache;
+}
+
+function dbLoad(){
+  if(!_dbCache) return migrate(structuredClone(DEFAULT_DB));
+  return structuredClone(_dbCache);
+}
+
+function dbSave(d){
+  _dbCache = structuredClone(d);
+  setDoc(DB_DOC, _dbCache).catch(err => console.error("Firestore save failed:", err));
+}
+
+function listenDB(callback){
+  onSnapshot(DB_DOC, (snap) => {
+    if(snap.exists()){
+      _dbCache = migrate(snap.data());
+      callback();
+    }
+  });
+}
+
+function money(n){return "৳ "+Number(n||0).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function safe(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function notify(msg){let tt=document.getElementById("toast");tt.textContent=msg;tt.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>tt.classList.remove("show"),2600)}
+
+function daysOverdue(dueDateStr){
+  if(!dueDateStr) return 0;
+  try{
+    let now = new Date();
+    let parts = String(dueDateStr).trim().split(/\s+/);
+    let day = parseInt(parts[0],10);
+    let months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+    let mon = months[(parts[1]||"").toLowerCase().slice(0,3)];
+    if(isNaN(day)||mon===undefined) return 0;
+    let year = parts[2] ? parseInt(parts[2],10) : now.getFullYear();
+    let due = new Date(year, mon, day);
+    if(!parts[2] && due > now) due.setFullYear(year-1);
+    let diff = Math.floor((now - due) / 86400000);
+    return diff > 0 ? diff : 0;
+  }catch(e){ return 0; }
+}
+
+const ADMIN_PASS = "admin123";
+const ADMIN_SESSION = "palmpay_admin_session";
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+let payFilter = "pending";
+let editingInstallments = [];
+
+// ── নোটিফিকেশন হেল্পার (২৪ ঘণ্টা) ──
+function isNotifActive(n){
+  if(!n || !n.createdAt) return false;
+  return (Date.now() - new Date(n.createdAt).getTime()) <= ONE_DAY_MS;
+}
+function hoursLeft(n){
+  if(!n || !n.createdAt) return 0;
+  return Math.max(0, Math.ceil((ONE_DAY_MS - (Date.now() - new Date(n.createdAt).getTime())) / 3600000));
+}
+
+function adminLogin(){
+  let p = document.getElementById("adminPass").value;
+  if(p !== ADMIN_PASS){notify("Wrong password");return}
+  sessionStorage.setItem(ADMIN_SESSION,"1");
+  showAdminApp();
+  if("Notification" in window && Notification.permission === "default"){
+    setTimeout(()=>{Notification.requestPermission()}, 500);
+  }
+}
+function adminLogout(){
+  sessionStorage.removeItem(ADMIN_SESSION);
+  document.getElementById("adminView").classList.add("hidden");
+  document.getElementById("loginView").classList.remove("hidden");
+  document.getElementById("adminPass").value="";
+}
+function showAdminApp(){
+  document.getElementById("loginView").classList.add("hidden");
+  document.getElementById("adminView").classList.remove("hidden");
+  loadSettings();
+  renderAll();
+}
+
+function switchAdmin(tab){
+  document.querySelectorAll(".bottom-nav .nav").forEach(b=>b.classList.toggle("active", b.dataset.tab===tab));
+  ["dashboard","users","payments","notifications","settings"].forEach(x=>{
+    document.getElementById("tab-"+x).classList.toggle("hidden", x!==tab);
+  });
+  window.scrollTo({top:0, behavior:"smooth"});
+  if(tab==="dashboard") renderDashboard();
+  if(tab==="users") renderUsers();
+  if(tab==="payments") renderPayments();
+  if(tab==="notifications") renderAdminNotifications();
+  if(tab==="settings") loadSettings();
+}
+
+function renderAll(){
+  renderDashboard();
+  renderUsers();
+  renderPayments();
+  renderAdminNotifications();
+  updateBadges();
+}
+
+function updateBadges(){
+  let d = dbLoad();
+  let pendingReq = 0;
+  d.users.forEach(u=>(u.paymentRequests||[]).forEach(r=>{if(r.status==="pending")pendingReq++}));
+  const reqBadge = document.getElementById("reqBadge");
+  reqBadge.textContent = pendingReq;
+  reqBadge.classList.toggle("hidden", pendingReq===0);
+
+  // ২৪ ঘণ্টা ফিল্টার
+  let notifs = (d.notifications||[])
+    .filter(n=>n.userPhone==="*")
+    .filter(isNotifActive);
+  let unread = notifs.filter(n=>!n.read).length;
+  const nBadge = document.getElementById("notifAdminBadge");
+  nBadge.textContent = unread;
+  nBadge.classList.toggle("hidden", unread===0);
+  const top = document.getElementById("topNotifBadge");
+  if(top){ top.textContent = unread; top.classList.toggle("hidden", unread===0); }
+}
+
+function renderDashboard(){
+  let d = dbLoad();
+  let totalUsers = d.users.length;
+  let collected = 0, due = 0, pending = 0, overdue = 0;
+  d.users.forEach(u=>{
+    (u.kisti||[]).forEach(k=>{
+      if(k.status==="approved") collected += Number(k.amount||0);
+      else due += Number(k.amount||0);
+      if(k.status==="overdue" || (k.status!=="approved" && daysOverdue(k.dueDate)>0)) overdue++;
+    });
+    (u.paymentRequests||[]).forEach(r=>{if(r.status==="pending")pending++});
+  });
+  document.getElementById("statUsers").textContent = totalUsers;
+  document.getElementById("statCollected").textContent = money(collected);
+  document.getElementById("statDue").textContent = money(due);
+  document.getElementById("statPending").textContent = pending;
+  document.getElementById("statOverdue").textContent = overdue;
+
+  let body = document.getElementById("dashUsersBody");
+  body.innerHTML = "";
+  d.users.slice(0,5).forEach(u=>{
+    let userTotal = (u.kisti||[]).reduce((a,k)=>a+Number(k.amount||0),0);
+    let userPaid = (u.kisti||[]).filter(k=>k.status==="approved").reduce((a,k)=>a+Number(k.amount||0),0);
+    let userDue = userTotal - userPaid;
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${u.customerImageUrl?`<img class="thumb" src="${safe(u.customerImageUrl)}" onerror="this.style.display='none'">`:'<div class="thumb" style="display:grid;place-items:center;color:#aaa">♙</div>'}</td>
+      <td><b>${safe(u.name)}</b></td>
+      <td>${safe(u.phone)}</td>
+      <td>${safe(u.product)}</td>
+      <td style="color:${userDue>0?'#e34e5b':'#16a36a'};font-weight:700">${money(userDue)}</td>`;
+    body.appendChild(tr);
+  });
+  updateBadges();
+}
+
+function renderUsers(){
+  let d = dbLoad();
+  let q = (document.getElementById("userSearch").value||"").toLowerCase().trim();
+  let list = d.users.filter(u=>{
+    if(!q) return true;
+    return (u.name||"").toLowerCase().includes(q) || (u.phone||"").includes(q) || (u.product||"").toLowerCase().includes(q);
+  });
+  let body = document.getElementById("usersBody");
+  body.innerHTML = "";
+  if(!list.length){
+    body.innerHTML = `<tr><td colspan="7"><div class="empty">No users found</div></td></tr>`;
+    return;
+  }
+  list.forEach(u=>{
+    let total = (u.kisti||[]).reduce((a,k)=>a+Number(k.amount||0),0);
+    let paid = (u.kisti||[]).filter(k=>k.status==="approved").reduce((a,k)=>a+Number(k.amount||0),0);
+    let due = total - paid;
+    let instCount = (u.kisti||[]).length;
+    let overdueCount = (u.kisti||[]).filter(k=>k.status!=="approved" && daysOverdue(k.dueDate)>0).length;
+    let tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${u.customerImageUrl?`<img class="thumb" src="${safe(u.customerImageUrl)}" onerror="this.style.display='none'">`:'<div class="thumb" style="display:grid;place-items:center;color:#aaa">♙</div>'}</td>
+      <td><b>${safe(u.name)}</b><br><span style="font-size:10px;color:#999">${safe(u.imei||'')}</span></td>
+      <td>${safe(u.phone)}</td>
+      <td>${safe(u.product)}</td>
+      <td>${instCount} items<br><span style="font-size:10px;color:#999">${money(paid)} paid</span>${overdueCount?`<br><span class="overdue-tag">${overdueCount} overdue</span>`:''}</td>
+      <td style="color:${due>0?'#e34e5b':'#16a36a'};font-weight:700">${money(due)}</td>
+      <td style="text-align:right;white-space:nowrap">
+        <button class="btn btn-outline btn-sm" onclick="openUserDetail('${u.id}')">View</button>
+        <button class="btn btn-outline btn-sm" onclick="editUser('${u.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}')">Del</button>
+      </td>`;
+    body.appendChild(tr);
+  });
+}
+
+function openUserDetail(id){
+  let d = dbLoad();
+  let u = d.users.find(x=>x.id===id);
+  if(!u) return;
+  document.getElementById("userDetailTitle").textContent = u.name + " — Installments";
+  let total = (u.kisti||[]).reduce((a,k)=>a+Number(k.amount||0),0);
+  let paid = (u.kisti||[]).filter(k=>k.status==="approved").reduce((a,k)=>a+Number(k.amount||0),0);
+  let due = total - paid;
+  let html = `
+    <div class="inst-summary" style="margin-bottom:14px">
+      <span>Total: <b>${money(total)}</b></span>
+      <span>Paid: <b>${money(paid)}</b></span>
+      <span>Due: <b>${money(due)}</b></span>
+    </div>
+    <div style="font-size:12px;color:#555;margin-bottom:10px">
+      <b>${safe(u.product)}</b> · IMEI: ${safe(u.imei||'-')}<br>
+      Phone: ${safe(u.phone)} · Purchased: ${safe(u.purchaseDate||'-')}
+    </div>
+  `;
+  (u.kisti||[]).forEach(k=>{
+    let statusText, cls;
+    if(k.status==="approved"){statusText="Paid";cls="pill-green"}
+    else if(k.status==="pending"){statusText="Verifying";cls="pill-amber"}
+    else if(k.status==="overdue"){statusText="Overdue";cls="pill-red"}
+    else{statusText="Unpaid";cls="pill-gray"}
+    let od = daysOverdue(k.dueDate);
+    let odTag = od>0
+      ? `<span class="overdue-tag">⚠ ${od} days overdue</span>`
+      : `<span class="overdue-tag ok">On time</span>`;
+    html += `
+      <div class="kisti-row">
+        <div class="kl"><b>Installment ${k.no}</b><small>Due: ${safe(k.dueDate||'-')} ${odTag}</small></div>
+        <div class="kr"><b>${money(k.amount)}</b><span class="pill ${cls}">${statusText}</span></div>
+      </div>
+    `;
+  });
+  html += `<button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="closeUserDetail();editUser('${u.id}')">Edit User & Installments</button>`;
+  document.getElementById("userDetailBody").innerHTML = html;
+  document.getElementById("userDetailModal").classList.add("show");
+}
+function closeUserDetail(){document.getElementById("userDetailModal").classList.remove("show")}
+
+function openUserModal(editId){
+  document.getElementById("userModalTitle").textContent = editId ? "Edit User" : "New User";
+  document.getElementById("editUserId").value = editId || "";
+  let d = dbLoad();
+
+  document.getElementById("previewProductImg").style.display = "none";
+  document.getElementById("previewCustomerImg").style.display = "none";
+
+  if(editId){
+    let u = d.users.find(x=>x.id===editId);
+    if(!u) return;
+    document.getElementById("uName").value = u.name||"";
+    document.getElementById("uPhone").value = u.phone||"";
+    document.getElementById("uPassword").value = u.password||"";
+    document.getElementById("uNid").value = u.nid||"";
+    document.getElementById("uProduct").value = u.product||"";
+    document.getElementById("uImei").value = u.imei||"";
+    document.getElementById("uPurchaseDate").value = u.purchaseDate||"";
+    document.getElementById("uImageUrl").value = u.imageUrl||"";
+    document.getElementById("uCustomerImageUrl").value = u.customerImageUrl||"";
+    editingInstallments = JSON.parse(JSON.stringify(u.kisti||[]));
+
+    if(u.imageUrl) {
+      let img = document.getElementById("previewProductImg");
+      img.src = u.imageUrl; img.style.display = "block";
+    }
+    if(u.customerImageUrl) {
+      let img = document.getElementById("previewCustomerImg");
+      img.src = u.customerImageUrl; img.style.display = "block";
+    }
+  }else{
+    ["uName","uPhone","uPassword","uNid","uProduct","uImei","uPurchaseDate","uImageUrl","uCustomerImageUrl"].forEach(id=>document.getElementById(id).value="");
+    editingInstallments = [{no:1,amount:1000,dueDate:"27 May",status:"unpaid"}];
+  }
+  renderInstallmentsEditor();
+  document.getElementById("userModal").classList.add("show");
+}
+function closeUserModal(){document.getElementById("userModal").classList.remove("show")}
+
+function renderInstallmentsEditor(){
+  let box = document.getElementById("installmentsEditor");
+  box.innerHTML = "";
+  editingInstallments.forEach((k, idx)=>{
+    let div = document.createElement("div");
+    div.className = "inst-editor";
+    let od = daysOverdue(k.dueDate);
+    let odHint = od>0 ? `<span style="color:#e34e5b;font-weight:700">⚠ ${od} days overdue</span>` : `<span style="color:#16a36a;font-weight:700">On time</span>`;
+    div.innerHTML = `
+      <span class="inst-num">#${idx+1}</span>
+      <button class="del" onclick="removeInstallmentRow(${idx})">Delete</button>
+      <div class="grid3">
+        <div><label>Installment No</label><input type="number" min="1" value="${Number(k.no||idx+1)}" onchange="updateInstField(${idx},'no',this.value)"></div>
+        <div><label>Amount (৳)</label><input type="number" min="0" step="1" value="${Number(k.amount||0)}" onchange="updateInstField(${idx},'amount',this.value)"></div>
+        <div><label>Status</label>
+          <select onchange="updateInstField(${idx},'status',this.value)">
+            <option value="unpaid" ${k.status==="unpaid"?"selected":""}>Unpaid</option>
+            <option value="pending" ${k.status==="pending"?"selected":""}>Pending</option>
+            <option value="approved" ${k.status==="approved"?"selected":""}>Approved / Paid</option>
+            <option value="overdue" ${k.status==="overdue"?"selected":""}>Overdue</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid2">
+        <div><label>Due Date (e.g. 27 Oct or 27 Oct 2023)</label><input value="${safe(k.dueDate||"")}" onchange="updateInstField(${idx},'dueDate',this.value)"></div>
+        <div><label>Overdue Info</label><div style="padding:8px 0;font-size:12px">${odHint}</div></div>
+      </div>
+      ${k.status==="approved"||k.status==="pending"?`
+      <div class="grid2">
+        <div><label>TrxID</label><input value="${safe(k.trxId||"")}" onchange="updateInstField(${idx},'trxId',this.value)" placeholder="bKash TrxID"></div>
+        <div><label>Sender Number</label><input value="${safe(k.senderNumber||"")}" onchange="updateInstField(${idx},'senderNumber',this.value)" placeholder="01XXXXXXXXX"></div>
+      </div>`:``}
+    `;
+    box.appendChild(div);
+  });
+  updateSummary();
+}
+function updateInstField(idx, field, val){
+  if(field==="no"||field==="amount") val = Number(val)||0;
+  editingInstallments[idx][field] = val;
+  if(field==="dueDate"||field==="status"||field==="no"||field==="amount"){
+    renderInstallmentsEditor();
+  }else{
+    updateSummary();
+  }
+}
+function addInstallmentRow(){
+  let nextNo = editingInstallments.length ? Math.max(...editingInstallments.map(k=>Number(k.no||0))) + 1 : 1;
+  editingInstallments.push({no:nextNo,amount:0,dueDate:"",status:"unpaid"});
+  renderInstallmentsEditor();
+}
+function removeInstallmentRow(idx){
+  editingInstallments.splice(idx,1);
+  renderInstallmentsEditor();
+}
+function updateSummary(){
+  let total = editingInstallments.reduce((a,k)=>a+Number(k.amount||0),0);
+  let paid = editingInstallments.filter(k=>k.status==="approved").reduce((a,k)=>a+Number(k.amount||0),0);
+  document.getElementById("sumTotal").textContent = money(total);
+  document.getElementById("sumPaid").textContent = money(paid);
+  document.getElementById("sumDue").textContent = money(total-paid);
+}
+
+function saveUser(){
+  let d = dbLoad();
+  let id = document.getElementById("editUserId").value;
+  let name = document.getElementById("uName").value.trim();
+  let phone = document.getElementById("uPhone").value.trim();
+  let password = document.getElementById("uPassword").value.trim();
+  let nid = document.getElementById("uNid").value.trim();
+  let product = document.getElementById("uProduct").value.trim();
+  let imei = document.getElementById("uImei").value.trim();
+  let purchaseDate = document.getElementById("uPurchaseDate").value.trim();
+  let imageUrl = document.getElementById("uImageUrl").value.trim();
+  let customerImageUrl = document.getElementById("uCustomerImageUrl").value.trim();
+
+  if(!name || !phone){notify("Name and phone are required");return}
+  if(!/^01[3-9]\d{8}$/.test(phone)){notify("Enter a valid 11-digit phone");return}
+  let duplicate = d.users.find(x=>x.phone===phone && x.id!==id);
+  if(duplicate){notify("This phone is already used by another user");return}
+
+  let kisti = editingInstallments.map(k=>{
+    let od = daysOverdue(k.dueDate);
+    let obj = {...k};
+    if(od>0 && obj.status!=="approved" && obj.status!=="pending"){
+      obj.status = "overdue";
+      obj.daysOverdue = od;
+    }else{
+      delete obj.daysOverdue;
+    }
+    return obj;
+  });
+  kisti.sort((a,b)=>Number(a.no)-Number(b.no));
+
+  if(id){
+    let u = d.users.find(x=>x.id===id);
+    if(!u) return;
+    Object.assign(u, {name, phone, password:password||u.password, nid, product, imei, purchaseDate, imageUrl, customerImageUrl, kisti});
+    d.notifications = d.notifications || [];
+    d.notifications.push({
+      id: "n_" + Math.random().toString(36).slice(2,9),
+      userPhone: u.phone,
+      title: "অ্যাকাউন্ট আপডেট",
+      message: "আপনার অ্যাকাউন্টের তথ্য অ্যাডমিন কর্তৃক আপডেট করা হয়েছে।",
+      type: "account",
+      read: false,
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
+    });
+  }else{
+    d.users.push({
+      id:"u_"+Math.random().toString(36).slice(2,9),
+      name, phone, password:password||"1234", nid, product, imei, purchaseDate, imageUrl, customerImageUrl, kisti,
+      paymentRequests:[]
+    });
+    d.notifications = d.notifications || [];
+    d.notifications.push({
+      id: "n_" + Math.random().toString(36).slice(2,9),
+      userPhone: phone,
+      title: "স্বাগতম PalmPay BD",
+      message: `আপনার অ্যাকাউন্ট তৈরি হয়েছে। লগইন: ${phone} / ${password||"1234"}`,
+      type: "account",
+      read: false,
+      createdAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
+    });
+  }
+  dbSave(d);
+  closeUserModal();
+  renderAll();
+  notify(id ? "User updated" : "User added");
+}
+
+function editUser(id){openUserModal(id)}
+
+function deleteUser(id){
+  if(!confirm("Delete this user permanently?")) return;
+  let d = dbLoad();
+  d.users = d.users.filter(x=>x.id!==id);
+  dbSave(d);
+  renderAll();
+  notify("User deleted");
+}
+
+function filterPayments(f, btn){
+  payFilter = f;
+  document.querySelectorAll(".tab[data-filter]").forEach(b=>b.classList.toggle("active", b.dataset.filter===f));
+  renderPayments();
+}
+
+function renderPayments(){
+  let d = dbLoad();
+  let all = [];
+  d.users.forEach(u=>{
+    (u.paymentRequests||[]).forEach((r, idx)=>{
+      all.push({user:u, req:r, idx});
+    });
+  });
+  all.sort((a,b)=> (b.req.submittedAt||"").localeCompare(a.req.submittedAt||""));
+  let list = all.filter(x=> payFilter==="all" || x.req.status==="pending");
+
+  let box = document.getElementById("paymentsList");
+  if(!list.length){
+    box.innerHTML = `<div class="card"><div class="empty">No ${payFilter==="pending"?"pending ":""}payment requests</div></div>`;
+    return;
+  }
+  box.innerHTML = "";
+  list.forEach(item=>{
+    let {user, req, idx} = item;
+    let statusCls = req.status==="approved"?"pill-green":req.status==="rejected"?"pill-red":"pill-amber";
+    let div = document.createElement("div");
+    div.className = "card";
+    div.style.marginBottom = "12px";
+    div.innerHTML = `
+      <div class="section-head" style="margin-bottom:8px">
+        <div><h3 style="font-size:14px">${safe(user.name)} <span style="font-size:11px;color:#999">(${safe(user.phone)})</span></h3>
+          <div class="sub">${safe(user.product)} · ${req.type==="single"?"Installment #"+req.installmentNo:"Custom / Full"}</div></div>
+        <span class="pill ${statusCls}">${req.status.toUpperCase()}</span>
+      </div>
+      <div class="req-card">
+        <div class="row"><span>Amount</span><b>${money(req.amount)}</b></div>
+        <div class="row"><span>Sender Number</span><b>${safe(req.senderNumber||"-")}</b></div>
+        <div class="row"><span>TrxID</span><b style="font-family:monospace">${safe(req.trxId||"-")}</b></div>
+        <div class="row"><span>Submitted</span><b>${req.submittedAt?new Date(req.submittedAt).toLocaleString():"-"}</b></div>
+      </div>
+      ${req.status==="pending" ? `
+      <div class="req-actions">
+        <button class="btn btn-primary btn-sm" style="flex:1" onclick="approvePayment('${user.id}',${idx})">✔ Approve</button>
+        <button class="btn btn-danger btn-sm" style="flex:1" onclick="rejectPayment('${user.id}',${idx})">✖ Reject</button>
+      </div>` : `
+      <div style="font-size:11px;color:#999;margin-top:6px">${req.status==="approved"?"Payment approved":"Payment rejected"}</div>
+      `}
+    `;
+    box.appendChild(div);
+  });
+  updateBadges();
+}
+
+function approvePayment(userId, reqIdx){
+  let d = dbLoad();
+  let u = d.users.find(x=>x.id===userId);
+  if(!u) return;
+  let req = u.paymentRequests[reqIdx];
+  if(!req) return;
+  req.status = "approved";
+  req.reviewedAt = new Date().toISOString();
+  if(req.installmentNo){
+    let k = (u.kisti||[]).find(x=>Number(x.no)===Number(req.installmentNo));
+    if(k){
+      k.status = "approved";
+      k.trxId = req.trxId;
+      k.senderNumber = req.senderNumber;
+      delete k.daysOverdue;
+    }
+  }else{
+    let remaining = Number(req.amount||0);
+    (u.kisti||[]).forEach(k=>{
+      if(remaining<=0) return;
+      if(k.status==="unpaid"||k.status==="overdue"||k.status==="pending"){
+        let amt = Number(k.amount||0);
+        if(remaining >= amt){
+          k.status = "approved";
+          k.trxId = req.trxId;
+          k.senderNumber = req.senderNumber;
+          delete k.daysOverdue;
+          remaining -= amt;
+        }
+      }
+    });
+  }
+
+  // ── User কে নোটিফিকেশন (২৪ ঘণ্টা valid) ──
+  d.notifications = d.notifications || [];
+  d.notifications.push({
+    id: "n_" + Math.random().toString(36).slice(2,9),
+    userPhone: u.phone,
+    adminNotification: false,
+    title: "পেমেন্ট সফল হয়েছে ✅",
+    message: `আপনার ৳${Number(req.amount).toLocaleString("en-BD")} পেমেন্ট অনুমোদিত হয়েছে।${req.installmentNo?" ("+req.installmentNo+"তম কিস্তি)":""} TrxID: ${req.trxId}`,
+    type: "approved",
+    read: false,
+    createdAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
+  });
+
+  dbSave(d);
+  renderAll();
+  notify("Payment approved — user notified");
+  showBrowserNotification("Payment Approved", `${u.name} — ৳${req.amount}`);
+}
+
+function rejectPayment(userId, reqIdx){
+  let d = dbLoad();
+  let u = d.users.find(x=>x.id===userId);
+  if(!u) return;
+  let req = u.paymentRequests[reqIdx];
+  if(!req) return;
+  req.status = "rejected";
+  req.reviewedAt = new Date().toISOString();
+  if(req.installmentNo){
+    let k = (u.kisti||[]).find(x=>Number(x.no)===Number(req.installmentNo));
+    if(k && k.status==="pending"){
+      k.status = "unpaid";
+      delete k.trxId;
+      delete k.senderNumber;
+    }
+  }
+  // ── User কে নোটিফিকেশন (rejected) ──
+  d.notifications = d.notifications || [];
+  d.notifications.push({
+    id: "n_" + Math.random().toString(36).slice(2,9),
+    userPhone: u.phone,
+    adminNotification: false,
+    title: "পেমেন্ট বাতিল ❌",
+    message: `আপনার ৳${Number(req.amount).toLocaleString("en-BD")} পেমেন্ট বাতিল করা হয়েছে। বিস্তারিত জানতে যোগাযোগ করুন।`,
+    type: "rejected",
+    read: false,
+    createdAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + ONE_DAY_MS).toISOString()
+  });
+  dbSave(d);
+  renderAll();
+  notify("Payment rejected");
+}
+
+function renderAdminNotifications(){
+  let d = dbLoad();
+  let list = (d.notifications||[])
+    .filter(n=>n.userPhone==="*")
+    .filter(isNotifActive)
+    .sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  let box = document.getElementById("adminNotifList");
+  if(!list.length){
+    box.innerHTML = `<div class="empty">No notifications (last 24 hours)</div>`;
+  }else{
+    box.innerHTML = list.map(n=>{
+      const hl = hoursLeft(n);
+      return `
+      <div class="notif-item ${n.read?"read":""}" onclick="markAdminNotifRead('${n.id}')">
+        <b>${safe(n.title)}</b>
+        <p>${safe(n.message)}</p>
+        <small>${new Date(n.createdAt).toLocaleString()} · ${hl}h left</small>
+      </div>`;
+    }).join("");
+  }
+  updateBadges();
+}
+function markAdminNotifRead(id){
+  let d = dbLoad();
+  let n = (d.notifications||[]).find(x=>x.id===id);
+  if(n){n.read=true;dbSave(d);renderAdminNotifications()}
+}
+function clearAdminNotifications(){
+  let d = dbLoad();
+  d.notifications = (d.notifications||[]).filter(n=>!(n.userPhone==="*" && n.read));
+  dbSave(d);
+  renderAdminNotifications();
+  notify("Read notifications cleared");
+}
+
+function showBrowserNotification(title, body){
+  if(!("Notification" in window)) return;
+  if(Notification.permission !== "granted") return;
+  try{ new Notification(title, {body}); }catch(e){}
+}
+
+function loadSettings(){
+  let d = dbLoad();
+  document.getElementById("setBkash").value = d.settings.bkashPersonal||"";
+  document.getElementById("setNagad").value = d.settings.nagadPersonal||"";
+  document.getElementById("setRocket").value = d.settings.rocketPersonal||"";
+}
+function saveSettings(){
+  let d = dbLoad();
+  d.settings.bkashPersonal = document.getElementById("setBkash").value.trim();
+  d.settings.nagadPersonal = document.getElementById("setNagad").value.trim();
+  d.settings.rocketPersonal = document.getElementById("setRocket").value.trim();
+  dbSave(d);
+  notify("Settings saved");
+}
+function resetAllData(){
+  if(!confirm("Reset ALL data to factory defaults? This cannot be undone.")) return;
+  _dbCache = migrate(structuredClone(DEFAULT_DB));
+  setDoc(DB_DOC, _dbCache);
+  renderAll();
+  notify("Data reset to defaults");
+}
+
+window.adminLogin=adminLogin;window.adminLogout=adminLogout;
+window.switchAdmin=switchAdmin;window.openUserModal=openUserModal;
+window.closeUserModal=closeUserModal;window.openUserDetail=openUserDetail;
+window.closeUserDetail=closeUserDetail;window.editUser=editUser;
+window.deleteUser=deleteUser;window.saveUser=saveUser;
+window.addInstallmentRow=addInstallmentRow;window.removeInstallmentRow=removeInstallmentRow;
+window.updateInstField=updateInstField;window.filterPayments=filterPayments;
+window.approvePayment=approvePayment;window.rejectPayment=rejectPayment;
+window.markAdminNotifRead=markAdminNotifRead;window.clearAdminNotifications=clearAdminNotifications;
+window.saveSettings=saveSettings;window.resetAllData=resetAllData;
+
+// প্রতি ১ মিনিটে অটো রিফ্রেশ (২৪ ঘণ্টা এক্সপায়ারি কার্যকর)
+setInterval(()=>{
+  if(!document.getElementById("adminView").classList.contains("hidden")){
+    updateBadges();
+    if(!document.getElementById("tab-notifications").classList.contains("hidden")){
+      renderAdminNotifications();
+    }
+  }
+}, 60*1000);
+
+window.addEventListener("DOMContentLoaded", async ()=>{
+  try{
+    await initDB();
+  }catch(err){
+    console.error("Firebase init failed:", err);
+    document.getElementById("loadingScreen").innerHTML = '<div style="padding:24px;text-align:center;color:#e34e5b;font-size:14px">Firebase কানেকশন ব্যর্থ হয়েছে।<br><small style="color:#858598">'+safe(err.message||"")+'</small></div>';
+    return;
+  }
+  document.getElementById("loadingScreen").classList.add("hidden");
+
+  listenDB(()=>{
+    if(!document.getElementById("adminView").classList.contains("hidden")){
+      renderAll();
+    }
+  });
+
+  if(sessionStorage.getItem(ADMIN_SESSION)==="1"){
+    showAdminApp();
+  }else{
+    document.getElementById("loginView").classList.remove("hidden");
+  }
+});
+</script>
+</body>
+</html>
