@@ -100,9 +100,37 @@ button,input,select{font:inherit}button{cursor:pointer}
 .loading-screen .spinner{width:44px;height:44px;border:4px solid #f0e6ff;border-top-color:#7000ff;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .profile-img-large{width:90px;height:90px;border-radius:24px;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid #f5eeff;box-shadow:0 4px 14px rgba(0,0,0,0.06)}
+
+/* P Notify Modal Styles */
+.pnotify-modal-bg { display:none; position:fixed; inset:0; background:#0f111a; z-index:9999; align-items:center; justify-content:center; flex-direction:column; }
+.pnotify-modal-bg.show { display:flex; }
+.pnotify-box { background:#1a1d2d; width:90%; max-width:380px; border-radius:20px; padding:30px 20px; text-align:center; color:#fff; position:relative; }
+.pnotify-box h2 { font-size:22px; margin-bottom:10px; font-weight:800;}
+.pnotify-box p { font-size:13px; color:#9ba1b4; line-height:1.5; margin-bottom:20px; }
+.pnotify-input { width:100%; background:#0f111a; border:1px solid #3b415a; border-radius:12px; padding:14px; color:#fff; font-size:14px; margin-bottom:14px; outline:none; }
+.pnotify-btn { width:100%; background:#5b7cfa; color:#fff; border:0; border-radius:12px; padding:14px; font-size:15px; font-weight:800; cursor:pointer; }
+.pnotify-icon { width:60px; height:60px; background:#252a3d; border-radius:50%; display:grid; place-items:center; margin:0 auto 20px; font-size:26px; }
 </style>
 </head>
 <body>
+
+<!-- P Notify Setup Modal (Screenshot matching) -->
+<div class="pnotify-modal-bg" id="pnotifyModal">
+  <div style="position:absolute; top:20px; left:20px; display:flex; align-items:center; gap:10px;">
+    <div style="width:36px; height:36px; background:#5b7cfa; border-radius:10px; display:grid; place-items:center; font-weight:800;">P</div>
+    <b style="font-size:16px;">P Notify</b>
+  </div>
+  <div class="pnotify-box">
+    <div class="pnotify-icon">🔔</div>
+    <h2>API key দিন</h2>
+    <p>key দিলেই মেসেজ বক্স খুলে যাবে, আর যা লিখবেন সেটাই নোটিফিকেশন হয়ে আসবে।</p>
+    <input type="text" class="pnotify-input" id="pnotifyKeyInput" value="cn_live_..." readonly>
+    <button class="pnotify-btn" onclick="activatePNotify()">চালু করুন</button>
+  </div>
+  <div style="position:absolute; bottom:30px; text-align:center;">
+    <p style="color:#4b5168; font-size:11px;">Powered by Netlify</p>
+  </div>
+</div>
 
 <div class="loading-screen" id="loadingScreen">
   <div class="spinner"></div>
@@ -312,6 +340,16 @@ let currentPhone="",selectedNo=0,subPage="";
 let paymentSelection={type:"full",amount:0,no:null};
 let currentLang=localStorage.getItem("palmpay_lang")||"bn";
 
+// ⚠️ এখানে আপনার Creator Notify এর পাবলিক কি (Public Key) বসান
+const CREATOR_NOTIFY_PUBLIC_KEY = "pub_y5succzonhc0816ruet0mfxjetj9";
+
+function activatePNotify() {
+  localStorage.setItem("pnotify_active", "1");
+  document.getElementById("pnotifyModal").classList.remove("show");
+  document.getElementById("loginScreen").classList.remove("hidden");
+  notify("P Notify সফলভাবে চালু হয়েছে!");
+}
+
 const I18N={
  bn:{
   tagline:"সহজ কিস্তি পরিশোধ সেবা",loginTitle:"আপনার অ্যাকাউন্টে লগইন করুন",loginIntro:"ফোন নম্বর ও পাসওয়ার্ড দিয়ে প্রবেশ করুন",
@@ -435,7 +473,6 @@ function calcDaysOverdue(dueDateStr){
 const NOTIF_PERMISSION_KEY = "palmpay_notif_asked";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
-// ── নোটিফিকেশন হেল্পার: ২৪ ঘণ্টা এক্সপায়ারি সহ ──
 function isNotifActive(n){
   if(!n || !n.createdAt) return false;
   return (Date.now() - new Date(n.createdAt).getTime()) <= ONE_DAY_MS;
@@ -469,7 +506,6 @@ function addNotification(userPhone, title, message, type){
 function renderNotifications(){
   if(!currentPhone) return;
   const d = dbLoad();
-  // ২৪ ঘণ্টার বেশি পুরনো নোটিফিকেশন বাদ
   const list = (d.notifications||[])
     .filter(n => n.userPhone === currentPhone || n.userPhone === "*")
     .filter(isNotifActive)
@@ -781,7 +817,6 @@ function submitPayment(){
    let k=u.kisti.find(x=>Number(x.no)===Number(paymentSelection.no));
    if(k&&k.status!=="approved"){k.status="pending";k.trxId=trx;k.senderNumber=sender;k.submittedAt=request.submittedAt}
  }
- // ── Admin কে নোটিফিকেশন (২৪ ঘণ্টা valid) ──
  d.notifications = d.notifications || [];
  d.notifications.push({
    id: "n_" + Math.random().toString(36).slice(2,9),
@@ -863,14 +898,22 @@ window.closeChoice=closeChoice;window.closePayment=closePayment;window.copyNumbe
 window.submitPayment=submitPayment;window.showPayGuide=showPayGuide;window.hideGuide=hideGuide;
 window.showReminder=showReminder;window.openSub=openSub;window.closeSub=closeSub;
 window.changePassword=changePassword;window.requestNotificationPermission=requestNotificationPermission;
+window.activatePNotify=activatePNotify;
 
-// প্রতি ৫ মিনিটে অটো রিফ্রেশ নোটিফিকেশন (২৪ ঘণ্টা এক্সপায়ারি কার্যকর করতে)
 setInterval(()=>{
   if(currentPhone){renderNotifications();}
 }, 5*60*1000);
 
 window.addEventListener("DOMContentLoaded", async ()=>{
   applyLanguage();
+  
+  // Service Worker রেজিস্ট্রেশন (পুশ নোটিফিকেশন রিসিভ করার জন্য)
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/creator-notify-sw.js')
+      .then(reg => console.log('SW Registered'))
+      .catch(err => console.error('SW Failed', err));
+  }
+
   document.getElementById("loginPhone").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
   document.getElementById("loginPass").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
 
@@ -887,17 +930,23 @@ window.addEventListener("DOMContentLoaded", async ()=>{
     if(currentPhone){ render(); renderNotifications(); }
   });
 
-  let s = localStorage.getItem("palmpay_session");
-  if (s) {
-    currentPhone = s;
-    let u = currentUser();
-    if (u) showApp();
-    else {
-      localStorage.removeItem("palmpay_session");
+  // P Notify Modal Check
+  if(!localStorage.getItem("pnotify_active")){
+    document.getElementById("pnotifyModal").classList.add("show");
+    document.getElementById("pnotifyKeyInput").value = CREATOR_NOTIFY_PUBLIC_KEY;
+  } else {
+    let s = localStorage.getItem("palmpay_session");
+    if (s) {
+      currentPhone = s;
+      let u = currentUser();
+      if (u) showApp();
+      else {
+        localStorage.removeItem("palmpay_session");
+        document.getElementById("loginScreen").classList.remove("hidden");
+      }
+    } else {
       document.getElementById("loginScreen").classList.remove("hidden");
     }
-  } else {
-    document.getElementById("loginScreen").classList.remove("hidden");
   }
 });
 </script>
