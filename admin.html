@@ -11,11 +11,13 @@
 body{background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:76px}
 button,input,select,textarea{font:inherit}button{cursor:pointer}
 .hidden{display:none!important}
+
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(150deg,#1e1b2e,#3a2a5c)}
 .login-box{width:100%;max-width:380px;background:#fff;border-radius:24px;padding:32px 26px;box-shadow:0 20px 60px #0005}
 .login-box .logo{width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,#7000ff,#9c58ff);display:grid;place-items:center;margin:0 auto 14px;font-size:28px;color:#fff}
 .login-box h1{font-size:22px;text-align:center;margin-bottom:4px}
 .login-box p{font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px}
+
 .field{margin-bottom:14px}
 .field label{display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px}
 .field input,.field select,.field textarea{width:100%;border:1px solid #ddd;border-radius:11px;padding:12px 14px;font-size:14px;outline:none;background:#fafafd}
@@ -25,8 +27,10 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .btn-outline{background:#fff;color:var(--p);border:1px solid #ddd}
 .btn-danger{background:#fff0f0;color:var(--red);border:1px solid #ffd0d5}
 .btn-sm{padding:7px 12px;font-size:12px;border-radius:8px}
+
 .admin-layout{min-height:100vh;padding:0 0 76px}
 .main{padding:20px 22px 20px;max-width:1200px;margin:0 auto}
+
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:68px;background:#fff;border-top:1px solid var(--line);display:flex;z-index:40;box-shadow:0 -4px 20px #0000000f;padding-bottom:env(safe-area-inset-bottom)}
 .bottom-nav .nav{flex:1;border:0;background:transparent;color:#9b99a8;font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;padding:0}
 .bottom-nav .nav .ic{font-size:19px;line-height:1}
@@ -39,9 +43,11 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
   .bottom-nav .nav .ic{font-size:17px}
   .bottom-nav .nav .badge-count{top:auto;right:auto;margin-left:4px;position:static}
 }
+
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px;flex-wrap:wrap}
 .topbar h2{font-size:21px}
 .topbar .sub{font-size:12px;color:var(--muted)}
+
 .grid{display:grid;gap:14px}
 .grid-3{grid-template-columns:repeat(3,1fr)}
 .grid-2{grid-template-columns:repeat(2,1fr)}
@@ -52,11 +58,13 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}
 .stat .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:20px;flex-shrink:0}
 .stat b{font-size:22px;display:block}
 .stat small{font-size:11px;color:var(--muted)}
+
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
 th{text-align:left;padding:10px 8px;color:var(--muted);font-weight:700;font-size:11px;border-bottom:1px solid var(--line);white-space:nowrap}
 td{padding:11px 8px;border-bottom:1px solid #f2f2f6;vertical-align:middle}
 tr:last-child td{border-bottom:0}
+
 .pill{font-size:10px;font-weight:800;padding:4px 8px;border-radius:20px;display:inline-block}
 .pill-green{background:#e4f8ef;color:var(--green)}
 .pill-red{background:#fff0ef;color:var(--red)}
@@ -67,6 +75,7 @@ tr:last-child td{border-bottom:0}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
 .section-head h3{font-size:16px}
 .section-head .sub{font-size:11.5px;color:var(--muted)}
+
 .modal-bg{display:none;position:fixed;inset:0;background:#15122188;z-index:80;align-items:center;justify-content:center;padding:18px}
 .modal-bg.show{display:flex}
 .modal{background:#fff;border-radius:18px;padding:22px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto}
@@ -86,6 +95,7 @@ tr:last-child td{border-bottom:0}
 .req-card .row span{color:var(--muted)}
 .req-actions{display:flex;gap:8px;margin-top:10px}
 .search{width:100%;max-width:280px;padding:10px 14px;border:1px solid #ddd;border-radius:10px;font-size:13px;outline:none}
+
 .inst-editor{border:1px solid #e6e6ee;border-radius:12px;padding:12px;margin-bottom:10px;background:#fafafd;position:relative}
 .inst-editor .inst-num{position:absolute;top:-9px;left:12px;background:var(--p);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:10px}
 .inst-editor .del{position:absolute;top:-9px;right:12px;border:0;background:#fff0f0;color:var(--red);border-radius:10px;font-size:10px;font-weight:800;padding:2px 8px;cursor:pointer}
@@ -97,6 +107,7 @@ tr:last-child td{border-bottom:0}
 @media(max-width:640px){.inst-editor .grid3{grid-template-columns:1fr 1fr}}
 .inst-summary{background:#f5eeff;border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .inst-summary b{color:var(--p)}
+
 .kisti-row{border:1px solid #eee;border-radius:12px;padding:11px 12px;margin-bottom:8px;background:#fafafd;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .kisti-row .kl{font-size:12.5px}
 .kisti-row .kl b{font-size:13px;display:block}
@@ -105,6 +116,7 @@ tr:last-child td{border-bottom:0}
 .kisti-row .kr b{font-size:13.5px;display:block}
 .overdue-tag{display:inline-block;background:#fff0ef;color:var(--red);font-size:10px;font-weight:800;padding:3px 8px;border-radius:20px;margin-top:4px}
 .overdue-tag.ok{background:#e4f8ef;color:var(--green)}
+
 .notif-bell{position:relative;border:0;background:#f1eaff;color:var(--p);width:40px;height:40px;border-radius:12px;font-size:18px;cursor:pointer;flex-shrink:0}
 .notif-bell .badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:10px;font-weight:800;border-radius:50%;min-width:18px;height:18px;display:grid;place-items:center;border:2px solid #fff}
 .notif-list{max-height:500px;overflow-y:auto}
@@ -118,9 +130,37 @@ tr:last-child td{border-bottom:0}
 .loading-screen .txt{color:#fff;font-size:13px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .img-preview{width:50px;height:50px;border-radius:8px;object-fit:cover;background:#f0f0f0;margin-top:8px;display:none;border:1px solid #ddd}
+
+/* P Notify Key Setup Modal */
+.pnotify-modal-bg { display:none; position:fixed; inset:0; background:#0f111a; z-index:9999; align-items:center; justify-content:center; flex-direction:column; }
+.pnotify-modal-bg.show { display:flex; }
+.pnotify-box { background:#1a1d2d; width:90%; max-width:380px; border-radius:20px; padding:30px 20px; text-align:center; color:#fff; position:relative; }
+.pnotify-box h2 { font-size:22px; margin-bottom:10px; font-weight:800;}
+.pnotify-box p { font-size:13px; color:#9ba1b4; line-height:1.5; margin-bottom:20px; }
+.pnotify-input { width:100%; background:#0f111a; border:1px solid #3b415a; border-radius:12px; padding:14px; color:#fff; font-size:14px; margin-bottom:14px; outline:none; }
+.pnotify-btn { width:100%; background:#5b7cfa; color:#fff; border:0; border-radius:12px; padding:14px; font-size:15px; font-weight:800; cursor:pointer; }
+.pnotify-icon { width:60px; height:60px; background:#252a3d; border-radius:50%; display:grid; place-items:center; margin:0 auto 20px; font-size:26px; }
 </style>
 </head>
 <body>
+
+<!-- P Notify Setup Modal for Admin -->
+<div class="pnotify-modal-bg" id="pnotifyModal">
+  <div style="position:absolute; top:20px; left:20px; display:flex; align-items:center; gap:10px;">
+    <div style="width:36px; height:36px; background:#5b7cfa; border-radius:10px; display:grid; place-items:center; font-weight:800;">P</div>
+    <b style="font-size:16px;">P Notify</b>
+  </div>
+  <div class="pnotify-box">
+    <div class="pnotify-icon">🔔</div>
+    <h2>API key দিন</h2>
+    <p>key দিলেই মেসেজ বক্স খুলে যাবে, আর যা লিখবেন সেটাই নোটিফিকেশন হয়ে আসবে।</p>
+    <input type="text" class="pnotify-input" id="pnotifyKeyInput" placeholder="cn_live_...">
+    <button class="pnotify-btn" onclick="activatePNotifyAdmin()">চালু করুন</button>
+  </div>
+  <div style="position:absolute; bottom:30px; text-align:center;">
+    <p style="color:#4b5168; font-size:11px;">Powered by Netlify</p>
+  </div>
+</div>
 
 <div class="loading-screen" id="loadingScreen">
   <div class="spinner"></div>
@@ -198,7 +238,7 @@ tr:last-child td{border-bottom:0}
       <div class="card" style="max-width:520px;margin:0 auto;">
         <div class="field"><label>Notification Title</label><input id="pushTitle" placeholder="e.g. নতুন অফার!"></div>
         <div class="field"><label>Message</label><textarea id="pushMessage" rows="4" placeholder="আপনার মেসেজ এখানে লিখুন..."></textarea></div>
-        <button class="btn btn-primary" style="width:100%" onclick="sendManualPush()">🚀 Send Push</button>
+        <button class="btn btn-primary" style="width:100%" onclick="sendManualPush()">🚀 Send Push to All Users</button>
       </div>
     </section>
 
@@ -411,6 +451,22 @@ const ADMIN_SESSION = "palmpay_admin_session";
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 let payFilter = "pending";
 let editingInstallments = [];
+
+// P Notify Key Management
+let ADMIN_PNOTIFY_KEY = localStorage.getItem("admin_pnotify_key") || "";
+
+function activatePNotifyAdmin() {
+  const key = document.getElementById("pnotifyKeyInput").value.trim();
+  if(!key || key.length < 10) {
+    alert("সঠিক API Key দিন!");
+    return;
+  }
+  localStorage.setItem("admin_pnotify_key", key);
+  ADMIN_PNOTIFY_KEY = key;
+  document.getElementById("pnotifyModal").classList.remove("show");
+  document.getElementById("loginView").classList.remove("hidden");
+  notify("P Notify সফলভাবে চালু হয়েছে!");
+}
 
 function isNotifActive(n){
   if(!n || !n.createdAt) return false;
@@ -835,21 +891,30 @@ function renderPayments(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// পুশ নোটিফিকেশন পাঠানোর গ্লোবাল ফাংশন (Creator Notify API)
+// Creator Notify API (সরাসরি ব্রাউজার থেকে)
 // ═══════════════════════════════════════════════════════════════
 async function sendPushNotification(title, message) {
+  if (!ADMIN_PNOTIFY_KEY) {
+    alert("অনুগ্রহ করে আগে P Notify API Key সেট করুন!");
+    return;
+  }
   try {
-    // এটি আপনার Netlify Function-এ রিকোয়েস্ট পাঠাচ্ছে
-    const res = await fetch('/.netlify/functions/send-notify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, message })
+    // আপনার স্ক্রিনশটে থাকা অ্যাপের API-তে ডেটা পাঠানো হচ্ছে
+    const res = await fetch("https://api.creatornotify.com/v1/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${ADMIN_PNOTIFY_KEY}`
+      },
+      body: JSON.stringify({
+        title: title,
+        message: message
+      })
     });
     
     if (!res.ok) {
-      const errorData = await res.json();
-      console.warn('Push failed:', errorData.error);
-      notify("পুশ পাঠানো ব্যর্থ হয়েছে! API চেক করুন।");
+      console.warn('Push API failed, please check the endpoint URL.');
+      notify("পুশ পাঠানো ব্যর্থ! API এন্ডপয়েন্ট চেক করুন।");
     } else {
       notify("সব ইউজারকে পুশ নোটিফিকেশন পাঠানো হয়েছে ✅");
     }
@@ -859,7 +924,6 @@ async function sendPushNotification(title, message) {
   }
 }
 
-// ম্যানুয়াল পুশ পাঠানোর ফাংশন (নতুন ট্যাব থেকে)
 function sendManualPush() {
   const title = document.getElementById("pushTitle").value.trim();
   const message = document.getElementById("pushMessage").value.trim();
@@ -922,7 +986,7 @@ function approvePayment(userId, reqIdx){
 
   dbSave(d);
   
-  // 🔔 Creator Notify-তে পুশ পাঠান
+  // 🔔 পুশ নোটিফিকেশন পাঠান
   sendPushNotification(
     "পেমেন্ট সফল হয়েছে ✅",
     `আপনার ৳${Number(req.amount).toLocaleString("en-BD")} পেমেন্ট অনুমোদিত হয়েছে। (TrxID: ${req.trxId})`
@@ -930,7 +994,6 @@ function approvePayment(userId, reqIdx){
 
   renderAll();
   notify("Payment approved — user notified");
-  showBrowserNotification("Payment Approved", `${u.name} — ৳${req.amount}`);
 }
 
 function rejectPayment(userId, reqIdx){
@@ -964,7 +1027,7 @@ function rejectPayment(userId, reqIdx){
   });
   dbSave(d);
 
-  // 🔔 Creator Notify-তে পুশ পাঠান
+  // 🔔 পুশ নোটিফিকেশন পাঠান
   sendPushNotification(
     "পেমেন্ট বাতিল ❌",
     `আপনার ৳${Number(req.amount).toLocaleString("en-BD")} পেমেন্ট বাতিল করা হয়েছে।`
@@ -1009,12 +1072,6 @@ function clearAdminNotifications(){
   notify("Read notifications cleared");
 }
 
-function showBrowserNotification(title, body){
-  if(!("Notification" in window)) return;
-  if(Notification.permission !== "granted") return;
-  try{ new Notification(title, {body}); }catch(e){}
-}
-
 function loadSettings(){
   let d = dbLoad();
   document.getElementById("setBkash").value = d.settings.bkashPersonal||"";
@@ -1047,7 +1104,7 @@ window.updateInstField=updateInstField;window.filterPayments=filterPayments;
 window.approvePayment=approvePayment;window.rejectPayment=rejectPayment;
 window.markAdminNotifRead=markAdminNotifRead;window.clearAdminNotifications=clearAdminNotifications;
 window.saveSettings=saveSettings;window.resetAllData=resetAllData;
-window.sendManualPush=sendManualPush;
+window.sendManualPush=sendManualPush;window.activatePNotifyAdmin=activatePNotifyAdmin;
 
 setInterval(()=>{
   if(!document.getElementById("adminView").classList.contains("hidden")){
@@ -1074,10 +1131,15 @@ window.addEventListener("DOMContentLoaded", async ()=>{
     }
   });
 
-  if(sessionStorage.getItem(ADMIN_SESSION)==="1"){
-    showAdminApp();
-  }else{
-    document.getElementById("loginView").classList.remove("hidden");
+  // P Notify Modal Check for Admin
+  if(!ADMIN_PNOTIFY_KEY){
+    document.getElementById("pnotifyModal").classList.add("show");
+  } else {
+    if(sessionStorage.getItem(ADMIN_SESSION)==="1"){
+      showAdminApp();
+    }else{
+      document.getElementById("loginView").classList.remove("hidden");
+    }
   }
 });
 </script>
